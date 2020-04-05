@@ -19,13 +19,13 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
     @Override
     public void sendMenu() {
         String menu = 
-         "/n/nCourse Registratin System"  
-        + "1. Search catalogue courses"
-        + "2. Add course to student courses"
-        + "3. Remove course from student courses"
-        + "4. View All courses in catalogue"
-        + "5. View all courses taken by student"
-        + "6. Quit";
+         "/n/nCourse Registratin System\n"  
+        + "1. Search catalogue courses\n"
+        + "2. Add course to student courses\n"
+        + "3. Remove course from student courses\n"
+        + "4. View All courses in catalogue\n"
+        + "5. View all courses taken by student\n"
+        + "6. Quit\n";
         sendString(menu);
     }
 
@@ -45,6 +45,9 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
             listStudents();
         }
         else if (in == StudentQueries.quit){
+            stop();
+        }
+        else if (in == null) {
             stop();
         }
         else {
