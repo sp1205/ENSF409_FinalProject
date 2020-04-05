@@ -1,41 +1,22 @@
+package Server;
+
 import java.io.BufferedReader;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.io.ObjectInputStream;
 
-interface Queries {
+interface StudentQueries {
     public static String listCourses = "1";
     public static String listStudents = "2";
+    public static String quit = "3";
 }
-public class StudentRunnable implements Queries{
-    private ObjectOutputStream m_sendObject;
-    private ObjectInputStream m_readObject;
+public class StudentRunnable extends CustomRunnable implements  StudentQueries{
 
-    private BufferedReader m_readString;
-    private PrinterWriter m_sendString;
-
-    StudentRunnable(PrinterWriter p, BufferedReader r, 
-                    ObjectOutputStream objOut, ObjectInputStream objIn) {
-        m_sendString = p;
-        m_readString = r;
-        m_readObject = objIn;
-        m_sendObject = objOut;
-
+    StudentRunnable(PrintWriter p, BufferedReader r, ObjectOutputStream objOut, ObjectInputStream objIn) {
+        super(p, r, objOut, objIn);
     }
 
-    public String readString() {
-        return m_readString.readLine();
-    }
-
-    public boolean sendString (String s) {
-        try {
-            m_sendString.println(s);
-            m_sendString.flush();
-        }
-        catch (Exception e) {
-            System.out.println("Exception in StudentRunnable::sendString");
-            e.printStackTrace();
-        }
-    }
-
+    @Override
     public void sendMenu() {
         String menu = 
          "/n/nCourse Registratin System"  
@@ -45,33 +26,38 @@ public class StudentRunnable implements Queries{
         + "4. View All courses in catalogue"
         + "5. View all courses taken by student"
         + "6. Quit";
+        sendString(menu);
     }
 
-    public ArrayList<Courses> listCourses() {
+    public void listCourses() {
         // not sure what else to do here
     }
 
-    public ArrayList<Courses> listStudents() {
+    public void listStudents() {
         // not sure what else to do here
     }
 
     public void handleInput(String in) {
-        if (in == Queries.listCourses) {
+        if (in == StudentQueries.listCourses) {
             listCourses();
         }
-        else if (in == Queries.listStudents) {
+        else if (in == StudentQueries.listStudents) {
             listStudents();
+        }
+        else if (in == StudentQueries.quit){
+            stop();
         }
         else {
             sendString("Unknown input: " + in);
         }
-
     }
 
     public void run() {
         try {
-            while (true) {
-                String userInput = m_readString.readLine();
+            start();
+            sendMenu();
+            while (isRunning()) {
+                String userInput = readString();
                 System.out.println("StudentRunnable: " + userInput);
 
                 handleInput(userInput);
@@ -80,6 +66,7 @@ public class StudentRunnable implements Queries{
         catch (Exception e) {
             System.out.println("Exception in StudentRunnable::run");
             e.printStackTrace();
+            stop();
         }
     }
 }

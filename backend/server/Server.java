@@ -32,6 +32,10 @@ public class Server {
         }
     }
 
+    public void stop() {
+        m_running = false;
+    }
+
     public void run() {
         m_running = true;
 
@@ -47,7 +51,9 @@ public class Server {
                 m_sendObject = new ObjectOutputStream(socket.getOutputStream());
                 m_sendObject.flush();
 
-                 threadPool.execute(new StudentRunnable());
+                // TODO: create a custom thread for admin
+                threadPool.execute(new StudentRunnable(m_sendString, m_readString, 
+                                                        m_sendObject, m_readObject));
             }
         } catch (Exception e) {
             System.out.println("Exception in Server::run");
@@ -59,7 +65,8 @@ public class Server {
 
     public static void main(String[] args) {
         try {
-            Server server = new Server(8099);
+            System.out.println("Starting server on port 8081");
+            Server server = new Server(8081);
             server.communicateWithClient();
         }
         catch (Exception e) {

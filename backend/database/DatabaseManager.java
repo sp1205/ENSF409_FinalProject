@@ -4,6 +4,10 @@ public class DatabaseManager {
 
     }
 
+    searchUser(User user) {
+        
+    }
+
 
 
 }
