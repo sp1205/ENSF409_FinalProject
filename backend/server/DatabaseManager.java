@@ -2,7 +2,8 @@ package Server;
 // TODO: UNCOMMENT!!
 //package Database;
 
-//import Models.User;
+import Models.*;
+import java.util.ArrayList;
 
 public class DatabaseManager {
 

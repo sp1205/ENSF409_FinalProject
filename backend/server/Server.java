@@ -1,5 +1,5 @@
 package Server;
-import Database.DatabaseManager;
+//import Database.DatabaseManager;
 
 import java.io.*;
 import java.util.concurrent.*;
@@ -37,6 +37,22 @@ public class Server {
         m_running = false;
     }
 
+    private void shutdown() {
+        try {
+            m_socket.close();
+            m_readObject.close();
+            m_sendObject.close();
+            m_readString.close();
+            m_sendString.close();
+
+        }
+        catch (Exception e) {
+            System.out.println("Exception in Server::shutdown");
+            e.printStackTrace();
+        }
+
+    }
+
     public void run() {
         m_running = true;
 
@@ -52,7 +68,7 @@ public class Server {
                 m_sendObject = new ObjectOutputStream(m_socket.getOutputStream());
                 m_sendObject.flush();
 
-                threadPool.execute(new StudentRunnable(m_sendString, m_readString, 
+                m_pool.execute(new StudentRunnable(m_sendString, m_readString, 
                                                         m_sendObject, m_readObject));
             }
         } catch (Exception e) {
@@ -67,7 +83,7 @@ public class Server {
         try {
             System.out.println("Starting server on port 8081");
             Server server = new Server(8081);
-            server.communicateWithClient();
+            server.run();
         }
         catch (Exception e) {
             e.printStackTrace();
