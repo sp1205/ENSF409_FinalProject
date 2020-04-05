@@ -62,11 +62,14 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
 
                 handleInput(userInput);
             }
+
+            shutdown();
         }
         catch (Exception e) {
             System.out.println("Exception in StudentRunnable::run");
             e.printStackTrace();
             stop();
+            shutdown();
         }
     }
 }

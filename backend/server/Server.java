@@ -1,4 +1,5 @@
 package Server;
+import Database.DatabaseManager;
 
 import java.io.*;
 import java.util.concurrent.*;
@@ -17,14 +18,14 @@ public class Server {
     private ObjectInputStream m_readObject;
 
     private BufferedReader m_readString;
-    private PrinterWriter m_sendString;
+    private PrintWriter m_sendString;
 
     private boolean m_running;
 
     public Server(int port) {
         try {
             m_serverSocket = new ServerSocket(port);
-            pool = Executors.newCachedThreadPool();
+            m_pool = Executors.newCachedThreadPool();
             System.out.println("Server: Server is running on port " + port);
         }
         catch (IOException e) {
@@ -47,11 +48,10 @@ public class Server {
                 m_readObject = new ObjectInputStream(m_socket.getInputStream());
 
                 m_readString = new BufferedReader(new InputStreamReader(m_socket.getInputStream()));
-                m_sendString = new PrinterWriter(m_socket.getOutputStream(), true);
-                m_sendObject = new ObjectOutputStream(socket.getOutputStream());
+                m_sendString = new PrintWriter(m_socket.getOutputStream(), true);
+                m_sendObject = new ObjectOutputStream(m_socket.getOutputStream());
                 m_sendObject.flush();
 
-                // TODO: create a custom thread for admin
                 threadPool.execute(new StudentRunnable(m_sendString, m_readString, 
                                                         m_sendObject, m_readObject));
             }

@@ -1,20 +1,15 @@
-import java.util.ArrayList;
+package Models;
+import java.io.Serializable;
 
-public class Student {
+public class Student implements Serializable{
+	private static final long serialVersionUID = 999909L;
 	
 	private String studentName;
 	private int studentId;
-	//private ArrayList<CourseOffering> offeringList;
-	private ArrayList<Registration> studentRegList;
 	
 	public Student (String studentName, int studentId) {
 		this.setStudentName(studentName);
 		this.setStudentId(studentId);
-		studentRegList = new ArrayList<Registration>();
-	}
-
-	public int numCourses() {
-		return this.studentRegList.size();
 	}
 
 	public String getStudentName() {
@@ -37,14 +32,6 @@ public class Student {
 		String st = "Student Name: " + getStudentName() + "\n" +
 				"Student Id: " + getStudentId() + "\n\n";
 		return st;
-	}
-
-	public void addRegistration(Registration registration) {
-		// TODO Auto-generated method stub
-		studentRegList.add(registration);
-	}
-	public void removeRegistration(Registration reg) {
-		studentRegList.remove(reg);
 	}
 
 }

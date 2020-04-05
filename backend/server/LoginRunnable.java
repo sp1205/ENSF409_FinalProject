@@ -34,6 +34,7 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
         m_readString, m_sendObject, m_readObject);
 
         studentRunnable.start();
+        stop();
     }
 
     public void loginAdmin() {
@@ -67,10 +68,15 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
 
                 handleInput(userInput);
             }
+
+            System.out.println("LoginRunnable: Shutting down Login Thread");
+            shutdown();
         }
         catch (Exception e) {
             System.out.println("Exception in LoginRunnable::run");
             e.printStackTrace();
+            stop();
+            shutdown();
         }
     }
 }
