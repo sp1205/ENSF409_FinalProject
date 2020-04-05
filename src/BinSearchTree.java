@@ -2,10 +2,10 @@ import java.io.*;
 import javax.swing.JOptionPane;
 /**
  * The following class called BinSearchTree creates an empty 
- * tree, and allows the user of the class to insert new nodes into the tree.  
+ * tree, and allows the user of the class to insert new nodes into the tree.
+ *
+ * @author ENCM 409 Instructors
  */
-
- 
 
 class BinSearchTree {
 	
@@ -94,6 +94,7 @@ class BinSearchTree {
 	 * @return - node that matches its id with the target id. Otherwise returns null.
 	 */	
 	public Node find( Node start, String target_id) {
+		System.out.println(start);
 		if(start == null) return null;
 		if(start.data.id.equals(target_id)) return start;
 		if(target_id.compareTo(start.data.id)>0) 
@@ -138,7 +139,6 @@ class BinSearchTree {
 		String s = cur.data.id+"        "+cur.data.faculty+"     "+
                                  cur.data.major+ "       "+cur.data.year + "\n";
 		out.println(s);
-		System.out.println(s);
 		if (cur.right!=null)
 			print_tree(cur.right,out);
 	} 
