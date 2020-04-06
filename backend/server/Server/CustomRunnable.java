@@ -47,6 +47,20 @@ public abstract class CustomRunnable implements Runnable {
 
         return true;
     }
+    
+    protected boolean sendObject(Object obj) {
+    	try {
+			m_sendObject.flush();
+			m_sendObject.writeObject(obj);
+    	}
+        catch (Exception e) {
+            System.out.println("Exception in CustomRunnable::sendObject");
+            e.printStackTrace();
+            return false;
+        }
+    	
+    	return true;
+    }
 
     protected abstract void sendMenu() ;
 

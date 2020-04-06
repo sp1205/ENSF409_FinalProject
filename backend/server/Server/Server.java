@@ -56,6 +56,7 @@ public class Server {
     public void run() {
         int log = 0;
         m_running = true;
+        DatabaseManager db = new DatabaseManager();
 
         while (m_running) {
             try {
@@ -72,7 +73,7 @@ public class Server {
 
 
                 System.out.println("Server: Starting StudentRunnable");
-                Runnable task = new StudentRunnable(m_sendString, m_readString, m_sendObject, m_readObject);
+                Runnable task = new StudentRunnable(m_sendString, m_readString, m_sendObject, m_readObject, db);
                 m_pool.execute(task);
             }
             catch (Exception e) {

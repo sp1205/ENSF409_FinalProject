@@ -31,7 +31,7 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
 
     public void loginStudent() {
         StudentRunnable studentRunnable = new StudentRunnable(m_sendString,
-        m_readString, m_sendObject, m_readObject);
+        m_readString, m_sendObject, m_readObject, null);
 
         studentRunnable.start();
         stop();
