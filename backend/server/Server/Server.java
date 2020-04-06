@@ -57,26 +57,19 @@ public class Server {
         int log = 0;
         m_running = true;
 
-        System.out.println(log++);
         while (m_running) {
             try {
                 // listen for clients 
-                System.out.println(log++);
                 m_socket = m_serverSocket.accept();
-                System.out.println(log++);
 
                 m_readString = new BufferedReader(new InputStreamReader(m_socket.getInputStream()));
-                System.out.println(log++);
 
                 m_sendString = new PrintWriter(m_socket.getOutputStream(), true);
-                System.out.println(log++);
 
                 m_sendObject = new ObjectOutputStream(m_socket.getOutputStream());
                 m_sendObject.flush();
                 m_readObject = new ObjectInputStream(m_socket.getInputStream());
-        System.out.println(log++);
 
-        System.out.println(log++);
 
                 System.out.println("Server: Starting StudentRunnable");
                 Runnable task = new StudentRunnable(m_sendString, m_readString, m_sendObject, m_readObject);
@@ -86,6 +79,7 @@ public class Server {
                 System.out.println("Exception in Server::run");
                 e.printStackTrace();
                 shutdown();
+                break;
             }
         }
     }

@@ -25,9 +25,11 @@ public abstract class CustomRunnable implements Runnable {
         try {
             return m_readString.readLine();
         }
-        catch (Exception e) {
+        catch (IOException e) {
             System.out.println("Exception in CustomRunnable::readString");
             e.printStackTrace();
+            stop();
+            shutdown();
             return null;
         }
     }

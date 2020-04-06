@@ -24,7 +24,7 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
         + "2. Add course to student courses\n"
         + "3. Remove course from student courses\n"
         + "4. View All courses in catalogue\n"
-        + "5. View all courses taken by student\n"
+        + "5. View All courses taken by student\n"
         + "6. Quit\n";
         sendString(menu);
     }
