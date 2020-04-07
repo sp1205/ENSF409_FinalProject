@@ -1,6 +1,7 @@
 package Server;
 
 import java.io.BufferedReader;
+import java.util.ArrayList;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 
@@ -56,6 +57,9 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
             sendString("Unknown input: " + in);
         }
     }
+
+    @Override
+    public void handleInput(ArrayList<String> in) { return; }
 
     @Override
     public void run() {

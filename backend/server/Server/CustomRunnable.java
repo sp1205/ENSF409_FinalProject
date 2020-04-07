@@ -1,6 +1,7 @@
 package Server;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public abstract class CustomRunnable implements Runnable {
     protected ObjectOutputStream m_sendObject;
@@ -20,7 +21,7 @@ public abstract class CustomRunnable implements Runnable {
 
         m_running = false;
     }
-
+    
     protected String readString() {
         try {
             return m_readString.readLine();
@@ -65,6 +66,7 @@ public abstract class CustomRunnable implements Runnable {
     protected abstract void sendMenu() ;
 
     protected abstract void handleInput(String in) ;
+    protected abstract void handleInput(ArrayList<String> in) ;
 
     protected boolean isRunning() {
         return m_running;

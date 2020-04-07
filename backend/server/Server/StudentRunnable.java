@@ -2,6 +2,7 @@ package Server;
 
 
 import Models.*;
+
 import java.io.BufferedReader;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
@@ -10,12 +11,22 @@ import java.io.ObjectInputStream;
 
 interface StudentQueries {
     public static String searchCourse = "1";
+
     public static String addCourseToStudent = "2";
+
     public static String removeCourseFromStudent = "3";
+
     public static String listCourses = "4";
+
     public static String allCoursesTakenByStudent = "5";
+
     public static String quit = "6";
+
+    public static String messageDelimiter = "\t";
 }
+
+
+
 public class StudentRunnable extends CustomRunnable implements  StudentQueries{
 
 	private DatabaseManager m_db;
@@ -57,8 +68,37 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
 		sendObject(list);
     }
 
+    public ArrayList<String> readMessage() {
+    	ArrayList<String> message = new ArrayList<String>();
+		String read = "";
 
-    public void handleInput(String in) {
+		while ((read += readString()) != null) {
+			int idx = read.indexOf(StudentQueries.messageDelimiter);
+			if (idx < 0) {
+				continue;
+			}
+			else {
+				String[] parts = read.split(StudentQueries.messageDelimiter);
+				read = parts[parts.length-1];
+				
+				for (int i = 0; i < parts.length-2; i++) {
+					message.add(parts[i]);
+				}
+			}
+		}
+		
+		return message;
+    	
+    }
+
+    public void handleInput(String in ) {return; }
+    public void handleInput(ArrayList<String> message) {
+    	if (message.size() <= 0) {
+    		System.out.println("StudentRunanble: handleInput: received empty message as parm");
+    		return;
+    	}
+
+    	String in = message.get(0);
         if (in.equals( StudentQueries.searchCourse)) {
         	System.out.println("StudentRunnable: input == searchCourse");
         	searchCourse();
@@ -92,7 +132,7 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
             start();
             sendMenu();
             while (isRunning()) {
-                String userInput = readString();
+                ArrayList<String> userInput = readMessage();
                 System.out.println("StudentRunnable: " + userInput);
 
                 handleInput(userInput);
