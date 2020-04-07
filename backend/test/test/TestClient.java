@@ -62,6 +62,7 @@ public class TestClient {
 				sendString(mb.loginMessage(username ));
 
 				response = socketIn.readLine();
+				System.out.println(response);
 			}
 			while (!response.equals(mb.successMessage()));
 

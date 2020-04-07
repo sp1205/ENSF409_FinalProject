@@ -38,7 +38,7 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
             return;
         }
 
-        if (!student.getStudentName().equals(message.get(1))) {
+        if (!student.getStudentName().equals(message.get(0))) {
             sendResponse(false, null, "Invalid Username");
             return;
         }
@@ -54,7 +54,6 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
     public void loginAdmin() {
         System.out.println("Not Implemented Yet!");
     }
-
 
     @Override
     public void handleInput(String in){return;}

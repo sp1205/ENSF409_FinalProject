@@ -8,8 +8,6 @@ import Models.*;
 import java.util.ArrayList;
 
 public class DatabaseManager {
-	//private CourseTable m_courseTable;
-
     DatabaseManager() {
 
     }
