@@ -23,6 +23,8 @@ interface StudentQueries {
     public static String quit = "6";
 
     public static String messageDelimiter = "\t";
+
+    public static String error = "ERR";
 }
 
 
@@ -74,6 +76,9 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
 
 		while ((read += readString()) != null) {
 			int idx = read.indexOf(StudentQueries.messageDelimiter);
+			if (read.indexOf("\0")> 0) {
+				System.out.println("StudentRunnable::readMessage: Received endline in message. TODO: figure out how to handle this");
+			}
 			if (idx < 0) {
 				continue;
 			}
@@ -94,7 +99,7 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
     public void handleInput(String in ) {return; }
     public void handleInput(ArrayList<String> message) {
     	if (message.size() <= 0) {
-    		System.out.println("StudentRunanble: handleInput: received empty message as parm");
+    		System.out.println("StudentRunanble: handleInput: received empty message as parameter");
     		return;
     	}
 

@@ -28,4 +28,8 @@ public class MessageBuilder implements StudentQueries {
     public String quitMessage() {
     	return quit + messageDelimiter;
     }
+    
+    public String errorMessage() {
+    	return error + messageDelimiter;
+    }
 }
