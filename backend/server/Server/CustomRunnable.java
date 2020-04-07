@@ -1,5 +1,7 @@
 package Server;
 
+import com.sun.xml.internal.ws.api.message.Message;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -62,6 +64,42 @@ public abstract class CustomRunnable implements Runnable {
     	
     	return true;
     }
+
+    public ArrayList<String> readMessage() {
+        ArrayList<String> message = new ArrayList<String>();
+        String read = "";
+
+        read = readString();
+
+        System.out.println("CustomRunnable::readMessage: buffer:" + read);
+
+        String[] parts = read.split(StudentQueries.messageDelimiter);
+        for (String s : parts) {
+            System.out.println(s);
+            message.add(s);
+        }
+
+        System.out.println("CustomRunnable::readMessage: parsed full message: "  );
+        for (String s : message) {
+            System.out.println(s);
+
+        }
+        return message;
+
+    }
+
+    public void sendResponse(boolean success, Object obj, String errorMessage) {
+        if (success) {
+            sendString(new MessageBuilder().successMessage());
+        }
+        else {
+            sendString(errorMessage+ StudentQueries.messageDelimiter);
+        }
+
+        if (obj != null)
+            sendObject(obj);
+    }
+
 
     protected abstract void sendMenu() ;
 

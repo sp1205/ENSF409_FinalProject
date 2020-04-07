@@ -11,8 +11,7 @@ import java.io.ObjectInputStream;
 
 interface LoginQueries {
     public static String studentLogin = "1";
-    public static String adminLogin = "2";
-    public static String quit = "3";
+    public static String quit = "2";
 }
 public class LoginRunnable extends CustomRunnable implements LoginQueries{
 
@@ -25,7 +24,6 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
         String menu = 
          "/n/nLogin Menu"  
         + LoginQueries.studentLogin + ". Student Login"
-        + LoginQueries.adminLogin + ". Admin Login (Coming Soon!)"
         + LoginQueries.quit + ". Quit";
         sendString(menu);
     }
@@ -44,11 +42,8 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
 
     @Override
     public void handleInput(String in) {
-        if (in == LoginQueries.studentLogin) {
+        if (in.equals( LoginQueries.studentLogin)) {
             loginStudent();
-        }
-        else if (in == LoginQueries.adminLogin) {
-            loginAdmin();
         }
         else if (in == LoginQueries.quit){
             stop();

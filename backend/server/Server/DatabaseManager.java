@@ -16,6 +16,10 @@ public class DatabaseManager {
 
     public Course searchCourse(int uid) {
     	System.out.println("DatabaseManager::searchCourse");
+
+    	if (uid < 0) {
+    	    return null;
+        }
     	return new Course("ENCM", uid);
     }
 
@@ -27,8 +31,8 @@ public class DatabaseManager {
 
     }
 
-    public void getCoursesByStudent() {
-
+    public ArrayList<Course> getCoursesByStudent() {
+        return null;
     }
 
     public ArrayList<Course> getAllCourses() {
@@ -41,11 +45,5 @@ public class DatabaseManager {
     	list.add(new Course("ENOG", 825));
     	
     	return list;
-
     }
-
-
-
-
-
 }

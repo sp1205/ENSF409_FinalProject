@@ -65,7 +65,13 @@ public class TestClient {
 					
 					sendString(mb.searchCourseMessage(courseId));
 					
-					System.out.println("Client: Searching for course");
+					System.out.println("Client: waiting for response");
+					response = socketIn.readLine();
+
+					System.out.println(response);
+					if (!response.equals(mb.successMessage()))
+						continue;
+
 					Course course = (Course) m_readObject.readObject();
 					System.out.println(course);
 				}
@@ -83,8 +89,14 @@ public class TestClient {
 				}
 				else if (in.equals(StudentQueries.listCourses)) {
 					sendString(mb.listCoursesMessage());
-					System.out.println("Client: waiting for ArrayList");
+
+					System.out.println("Client: waiting for response");
+					response = socketIn.readLine();
+					System.out.println(response);
+
+					System.out.println("Client: waiting for arrayList");
 					ArrayList<Course> list = (ArrayList<Course>) m_readObject.readObject();
+
 					for (Course course : list) {
 						System.out.println(course);
 					}
