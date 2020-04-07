@@ -46,4 +46,8 @@ public class DatabaseManager {
     	
     	return list;
     }
+
+    public Student login() {
+        return new Student("Devon", 300);
+    }
 }

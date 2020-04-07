@@ -72,8 +72,8 @@ public class Server {
                 m_readObject = new ObjectInputStream(m_socket.getInputStream());
 
 
-                System.out.println("Server: Starting StudentRunnable");
-                Runnable task = new StudentRunnable(m_sendString, m_readString, m_sendObject, m_readObject, db);
+                //Runnable task = new StudentRunnable(m_sendString, m_readString, m_sendObject, m_readObject, db);
+                Runnable task = new LoginRunnable(m_sendString, m_readString, m_sendObject, m_readObject, db);
                 m_pool.execute(task);
             }
             catch (Exception e) {

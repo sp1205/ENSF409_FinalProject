@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 
+import Models.Student;
 import Server.StudentRunnable;
 
 import java.io.ObjectInputStream;
@@ -14,9 +15,11 @@ interface LoginQueries {
     public static String quit = "2";
 }
 public class LoginRunnable extends CustomRunnable implements LoginQueries{
+    private DatabaseManager m_db;
 
-    LoginRunnable(PrintWriter p, BufferedReader r, ObjectOutputStream objOut, ObjectInputStream objIn) {
+    LoginRunnable(PrintWriter p, BufferedReader r, ObjectOutputStream objOut, ObjectInputStream objIn, DatabaseManager db) {
         super(p, r, objOut, objIn);
+        m_db = db;
     }
 
     @Override
@@ -28,11 +31,23 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
         sendString(menu);
     }
 
-    public void loginStudent() {
-        StudentRunnable studentRunnable = new StudentRunnable(m_sendString,
-        m_readString, m_sendObject, m_readObject, null);
+    public void loginStudent(ArrayList<String> message) {
+        Student student = m_db.login();
+        if (student == null) {
+            sendResponse(false, null, "Invalid Login");
+            return;
+        }
 
-        studentRunnable.start();
+        if (!student.getStudentName().equals(message.get(1))) {
+            sendResponse(false, null, "Invalid Username");
+            return;
+        }
+
+        sendResponse(true, null, null);
+
+        Runnable studentRunnable = new StudentRunnable(m_sendString, m_readString, m_sendObject, m_readObject, m_db);
+
+        studentRunnable.run();
         stop();
     }
 
@@ -40,30 +55,31 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
         System.out.println("Not Implemented Yet!");
     }
 
+
     @Override
-    public void handleInput(String in) {
-        if (in.equals( LoginQueries.studentLogin)) {
-            loginStudent();
+    public void handleInput(String in){return;}
+
+    @Override
+    public void handleInput(ArrayList<String> in) {
+        if (in.size() <= 0) {
+            sendResponse(false, null, "Invalid Message");
+            return;
         }
-        else if (in == LoginQueries.quit){
+        if (in.get(0).equals(StudentQueries.quit)){
             stop();
+            return;
         }
-        else {
-            sendString("Unknown input: " + in);
-        }
+
+        loginStudent(in);
     }
 
     @Override
-    public void handleInput(ArrayList<String> in) { return; }
-
-    @Override
     public void run() {
+        System.out.println("Login runnable started");
         try {
             start();
-            sendMenu();
             while (isRunning()) {
-                String userInput = readString();
-                System.out.println("LoginRunnable: " + userInput);
+                ArrayList<String> userInput = readMessage();
 
                 handleInput(userInput);
             }
@@ -75,7 +91,7 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
             System.out.println("Exception in LoginRunnable::run");
             e.printStackTrace();
             stop();
-            shutdown();
         }
+        shutdown();
     }
 }
