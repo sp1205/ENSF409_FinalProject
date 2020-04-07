@@ -83,12 +83,52 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
     	sendResponse(true, list, null);
     }
 
-    private void addCourseToStudent() {
-        return;
-        // m_db.addStudentCourse(100);
+    private void allCoursesTakenByStudent() {
+        System.out.println("StudentRunnable: sending Course List");
+
+        ArrayList<Course> list =  m_db.getCoursesByStudent();
+
+        if (list == null) {
+            sendResponse(false, null, "Not registered in any courses");
+        }
+
+        sendResponse(true, list, null);
     }
 
-    public void handleInput(String in ) {return; }
+    private void addCourseToStudent(ArrayList<String> message) {
+        if (message.size() != 2) {
+            System.out.println("StudentRunnable: addCourseToStudent: invalid message of length: " + message.size());
+            return;
+        }
+
+        int uid = Integer.parseInt(message.get(1));
+        Course course = m_db.searchCourse(uid);
+        if (course == null) {
+            sendResponse(false, null, "Course: " + uid + " does not exist in database");
+        }
+
+        m_db.addCourseToStudent(uid);
+        sendResponse(true, null, null);
+    }
+
+    private void removeCourseFromStudent(ArrayList<String> message) {
+        if (message.size() != 2) {
+            System.out.println("StudentRunnable: removeCourseToStudent: invalid message of length: " + message.size());
+            return;
+        }
+
+        int uid = Integer.parseInt(message.get(1));
+        Course course = m_db.searchCourse(uid);
+        if (course == null) {
+            sendResponse(false, null, "Course: " + uid + " does not exist in database");
+        }
+
+        m_db.removeCourseFromStudent(uid);
+        sendResponse(true, null, null);
+    }
+
+    public void handleInput(String in ) { return; }
+
     public void handleInput(ArrayList<String> message) {
     	if (message.size() <= 0) {
     		System.out.println("StudentRunanble: handleInput: received empty message as parameter");
@@ -101,18 +141,18 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
         	searchCourse(message);
         }
         else if (in.equals( StudentQueries.addCourseToStudent)) {
-        	return;
+            addCourseToStudent(message);
         }
         else if (in.equals( StudentQueries.removeCourseFromStudent)) {
-        	return;
+            removeCourseFromStudent(message);
         }
         else if (in.equals(StudentQueries.listCourses)) {
         	listCourses();
         }
         else if (in.equals( StudentQueries.allCoursesTakenByStudent)) {
-        	return;
+            allCoursesTakenByStudent();
         }
-        else if (in.equals( StudentQueries.quit)) {
+        else if (in.equals(StudentQueries.quit)) {
             stop();
         }
         else if (in.equals("")) {

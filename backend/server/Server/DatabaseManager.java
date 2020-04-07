@@ -31,8 +31,8 @@ public class DatabaseManager {
 
     }
 
-    public void getCoursesByStudent() {
-
+    public ArrayList<Course> getCoursesByStudent() {
+        return null;
     }
 
     public ArrayList<Course> getAllCourses() {
@@ -45,6 +45,5 @@ public class DatabaseManager {
     	list.add(new Course("ENOG", 825));
     	
     	return list;
-
     }
 }

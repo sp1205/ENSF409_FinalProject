@@ -69,7 +69,7 @@ public class TestClient {
 					response = socketIn.readLine();
 
 					System.out.println(response);
-					if (response.equals(mb.failMessage()))
+					if (!response.equals(mb.successMessage()))
 						continue;
 
 					Course course = (Course) m_readObject.readObject();
