@@ -5,6 +5,12 @@ public class MessageBuilder implements StudentQueries {
 		
 	}
 
+    /**
+     *
+     * @param courseId
+     * @return
+     *
+     */
     public String searchCourseMessage(String courseId) {
     	return searchCourse + messageDelimiter + courseId + messageDelimiter;
     }
@@ -28,8 +34,21 @@ public class MessageBuilder implements StudentQueries {
     public String quitMessage() {
     	return quit + messageDelimiter;
     }
-    
+
+    // Currently not used. Ignore for now
     public String errorMessage() {
     	return error + messageDelimiter;
+    }
+
+    public String failMessage() {
+	    return failed + messageDelimiter;
+    }
+
+    public String successMessage() {
+        return success + messageDelimiter;
+    }
+
+    public String loginMessage(String studentName, String studentId) {
+	    return studentName + messageDelimiter + studentId + messageDelimiter;
     }
 }

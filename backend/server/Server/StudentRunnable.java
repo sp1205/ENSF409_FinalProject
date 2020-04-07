@@ -25,6 +25,9 @@ interface StudentQueries {
     public static String messageDelimiter = "\t";
 
     public static String error = "ERR";
+
+    public static String success = "SUCC";
+    public static String failed = "FAIL";
 }
 
 
@@ -61,7 +64,11 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
     	
     	Course course = m_db.searchCourse(uid);
 
-    	sendObject(course);
+    	if (course == null) {
+    	    sendResponse(false, null, "Unable to find course: " + message.get(1));
+        }
+
+        sendResponse(true, course, null);
     }
 
     private void listCourses() {
@@ -69,35 +76,16 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
 
     	ArrayList<Course> list =  m_db.getAllCourses();
 
-		sendObject(list);
+        if (list == null) {
+            sendResponse(false, null, "No courses in catalogue");
+        }
+
+    	sendResponse(true, list, null);
     }
 
     private void addCourseToStudent() {
         return;
         // m_db.addStudentCourse(100);
-    }
-
-    public ArrayList<String> readMessage() {
-    	ArrayList<String> message = new ArrayList<String>();
-		String read = "";
-
-            read = readString();
-
-            System.out.println("StudentRunnable::readMessage: buffer:" + read);
-
-            String[] parts = read.split(StudentQueries.messageDelimiter);
-            for (String s : parts) {
-                System.out.println(s);
-                message.add(s);
-            }
-
-		System.out.println("StudentRunnable::readMessage: parsed full message: "  );
-		for (String s : message) {
-		    System.out.println(s);
-
-        }
-		return message;
-    	
     }
 
     public void handleInput(String in ) {return; }
