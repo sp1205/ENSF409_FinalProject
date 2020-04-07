@@ -14,21 +14,16 @@ public class DatabaseManager {
 
     }
 
-    // not required for milestone 2
-    //public User searchUser(User user) {
-    //    return null;
-    //}
-
     public Course searchCourse(int uid) {
     	System.out.println("DatabaseManager::searchCourse");
     	return new Course("ENCM", uid);
     }
 
-    public void addStudentCourse() {
+    public void addCourseToStudent(int courseId) {
 
     }
 
-    public void removeStudentCourse() {
+    public void removeCourseFromStudent(int courseId) {
 
     }
 

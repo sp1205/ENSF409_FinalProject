@@ -51,18 +51,20 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
     }
     
 
-    public void searchCourse() {
-    	sendString("Enter Course Id");
-    	String id = readString();
-    	int uid = Integer.parseInt(id);
+    public void searchCourse(ArrayList<String> message) {
+        if (message.size() != 2) {
+            System.out.println("StudentRunnable: searchCourse: invalid message of length: " + message.size());
+            return;
+        }
+
+    	int uid = Integer.parseInt(message.get(1));
     	
     	Course course = m_db.searchCourse(uid);
-
 
     	sendObject(course);
     }
 
-    public void listCourses() {
+    private void listCourses() {
     	System.out.println("StudentRunnable: sending Course List");
 
     	ArrayList<Course> list =  m_db.getAllCourses();
@@ -70,28 +72,30 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
 		sendObject(list);
     }
 
+    private void addCourseToStudent() {
+        return;
+        // m_db.addStudentCourse(100);
+    }
+
     public ArrayList<String> readMessage() {
     	ArrayList<String> message = new ArrayList<String>();
 		String read = "";
 
-		while ((read += readString()) != null) {
-			int idx = read.indexOf(StudentQueries.messageDelimiter);
-			if (read.indexOf("\0")> 0) {
-				System.out.println("StudentRunnable::readMessage: Received endline in message. TODO: figure out how to handle this");
-			}
-			if (idx < 0) {
-				continue;
-			}
-			else {
-				String[] parts = read.split(StudentQueries.messageDelimiter);
-				read = parts[parts.length-1];
-				
-				for (int i = 0; i < parts.length-2; i++) {
-					message.add(parts[i]);
-				}
-			}
-		}
-		
+            read = readString();
+
+            System.out.println("StudentRunnable::readMessage: buffer:" + read);
+
+            String[] parts = read.split(StudentQueries.messageDelimiter);
+            for (String s : parts) {
+                System.out.println(s);
+                message.add(s);
+            }
+
+		System.out.println("StudentRunnable::readMessage: parsed full message: "  );
+		for (String s : message) {
+		    System.out.println(s);
+
+        }
 		return message;
     	
     }
@@ -106,7 +110,7 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
     	String in = message.get(0);
         if (in.equals( StudentQueries.searchCourse)) {
         	System.out.println("StudentRunnable: input == searchCourse");
-        	searchCourse();
+        	searchCourse(message);
         }
         else if (in.equals( StudentQueries.addCourseToStudent)) {
         	return;
@@ -135,7 +139,6 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
     public void run() {
         try {
             start();
-            sendMenu();
             while (isRunning()) {
                 ArrayList<String> userInput = readMessage();
                 System.out.println("StudentRunnable: " + userInput);

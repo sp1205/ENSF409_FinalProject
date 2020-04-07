@@ -88,7 +88,7 @@ public class Server {
     public static void main(String[] args) {
         try {
             System.out.println("Starting server on port 8081");
-            Server server = new Server(8081);
+            Server server = new Server(8040);
             server.run();
         }
         catch (Exception e) {

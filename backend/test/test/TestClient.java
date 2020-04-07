@@ -1,5 +1,6 @@
 package test;
 import Models.*;
+import Server.*;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
@@ -50,35 +51,38 @@ public class TestClient {
 
 	public void communicate()  {
 
+		MessageBuilder mb = new MessageBuilder();
 		String in = "";
 		String response = "";
 		try {
-			response = socketIn.readLine();
-			System.out.println(response);
-
 			while (true) {
 				System.out.println("please enter a option: ");
 				in = stdIn.readLine();
 
-				socketOut.println(in);
-
 				if (in.equals( StudentQueries.searchCourse)) {
 					System.out.println("Enter Course Id");
-					in = stdIn.readLine();
+					String courseId = stdIn.readLine();
 					
-					sendString(in);
+					sendString(mb.searchCourseMessage(courseId));
 					
 					System.out.println("Client: Searching for course");
 					Course course = (Course) m_readObject.readObject();
 					System.out.println(course);
 				}
 				else if (in.equals( StudentQueries.addCourseToStudent)) {
-					return;
+					System.out.println("Enter Course Id");
+					String courseId = stdIn.readLine();
+
+					sendString(mb.addCourseToStudentMessage(courseId));
 				}
 				else if (in.equals( StudentQueries.removeCourseFromStudent)) {
-					return;
+					System.out.println("Enter Course Id");
+					String courseId = stdIn.readLine();
+
+					sendString(mb.removeCourseFromStudentMessage(courseId));
 				}
 				else if (in.equals(StudentQueries.listCourses)) {
+					sendString(mb.listCoursesMessage());
 					System.out.println("Client: waiting for ArrayList");
 					ArrayList<Course> list = (ArrayList<Course>) m_readObject.readObject();
 					for (Course course : list) {
@@ -86,7 +90,7 @@ public class TestClient {
 					}
 				}
 				else if (in.equals( StudentQueries.allCoursesTakenByStudent)) {
-					return;
+					sendString(mb.allCoursesTakenByStudentMessage());
 				}
 			}
 			
@@ -105,7 +109,7 @@ public class TestClient {
 	}
 
 	public static void main(String[] args) throws IOException  {
-		TestClient aTestClient = new TestClient("localhost", 8081);
+		TestClient aTestClient = new TestClient("localhost", 8040);
 		aTestClient.communicate();
 	}
 }
