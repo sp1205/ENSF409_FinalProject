@@ -8,8 +8,6 @@ import Models.*;
 import java.util.ArrayList;
 
 public class DatabaseManager {
-	//private CourseTable m_courseTable;
-
     DatabaseManager() {
 
     }
@@ -45,5 +43,9 @@ public class DatabaseManager {
     	list.add(new Course("ENOG", 825));
     	
     	return list;
+    }
+
+    public Student login() {
+        return new Student("Devon", 300);
     }
 }

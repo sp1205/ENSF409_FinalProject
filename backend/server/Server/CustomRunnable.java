@@ -71,8 +71,6 @@ public abstract class CustomRunnable implements Runnable {
 
         read = readString();
 
-        System.out.println("CustomRunnable::readMessage: buffer:" + read);
-
         String[] parts = read.split(StudentQueries.messageDelimiter);
         for (String s : parts) {
             System.out.println(s);

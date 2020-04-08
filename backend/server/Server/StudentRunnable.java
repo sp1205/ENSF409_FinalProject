@@ -27,6 +27,7 @@ interface StudentQueries {
     public static String error = "ERR";
 
     public static String success = "SUCC";
+
     public static String failed = "FAIL";
 }
 
@@ -165,6 +166,7 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
     }
 
     public void run() {
+        System.out.println("Student runnable started");
         try {
             start();
             while (isRunning()) {

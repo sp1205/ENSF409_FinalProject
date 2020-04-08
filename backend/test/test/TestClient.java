@@ -55,6 +55,17 @@ public class TestClient {
 		String in = "";
 		String response = "";
 		try {
+		    do {
+				System.out.println("Enter Username");
+				String username = stdIn.readLine();
+
+				sendString(mb.loginMessage(username ));
+
+				response = socketIn.readLine();
+				System.out.println(response);
+			}
+			while (!response.equals(mb.successMessage()));
+
 			while (true) {
 				System.out.println("please enter a option: ");
 				in = stdIn.readLine();

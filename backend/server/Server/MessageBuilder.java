@@ -118,11 +118,10 @@ public class MessageBuilder implements StudentQueries {
      * else:
      *      1. custom error message (client should display to GUI)
      * @param studentName name of student
-     * @param studentId id of student
      * @return a properly structured query message
      *
      */
-    public String loginMessage(String studentName, String studentId) {
-	    return studentName + messageDelimiter + studentId + messageDelimiter;
+    public String loginMessage(String studentName) {
+	    return studentName + messageDelimiter;
     }
 }
