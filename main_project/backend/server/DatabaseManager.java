@@ -61,6 +61,7 @@ public class DatabaseManager {
         }
 
         m_dbConnector.deleteRegistration(found.getRegistrationID());
+        m_dbConnector.objectsFromSQL();
         return true;
     }
 
