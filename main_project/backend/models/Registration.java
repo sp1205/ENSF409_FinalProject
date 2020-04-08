@@ -1,18 +1,20 @@
 package backend.models;
-import java.util.ArrayList;
+
+/** Fixing toString function required **/
 
 public class Registration {
 	private Student theStudent;
 	private CourseOffering theOffering;
-	private int registrationId;
+	private int registrationID;
 	private final int MAX_COURSES_PER_STUDENT = 6;
 	private char grade;
 
-	public Registration(int registrationId) {
-		this.registrationId = registrationId;
+	public Registration(int registrationID) {
+		this.setRegistrationID(registrationID);
+		this.setGrade('U');
 	}
 
-	Boolean completeRegistration (Student st, CourseOffering of) {
+	boolean completeRegistration (Student st, CourseOffering of) {
 		// DVIPOND TODO: figure out a way to implement max courses
 		//if (st.numCourses() >= MAX_COURSES_PER_STUDENT) {
 		//	System.out.println(st.getStudentName() + " is unable to reister" +
@@ -60,6 +62,20 @@ public class Registration {
 		st += "\n-----------\n";
 		return st;
 		
+	}
+
+	/**
+	 * @return the registrationID
+	 */
+	public int getRegistrationID() {
+		return registrationID;
+	}
+
+	/**
+	 * @param registrationID the registrationID to set
+	 */
+	public void setRegistrationID(int registrationID) {
+		this.registrationID = registrationID;
 	}
 	
 

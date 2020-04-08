@@ -1,30 +1,24 @@
 package backend.models;
 import java.util.ArrayList;
 
+/** Fixing toString function required **/
+
 public class CourseOffering {
 	
-	private int secNum;
-	private int secCap;
+	private int courseOfferingID;
 	private Course theCourse;
+	private int courseOfferingNum;
+	private int secCap;
 	private ArrayList <Registration> offeringRegList;
 	
-	public CourseOffering (int secNum, int secCap) {
-		this.setSecNum(secNum);
-		this.setSecCap(secCap);
+	public CourseOffering (int courseOfferingID, int courseOfferingNum, Course theCourse) {
+		this.setCourseOfferingID(courseOfferingID);
+		this.setCourseOfferingNum(courseOfferingNum);
+		this.setSecCap(10);
+		this.setTheCourse(theCourse);
 		offeringRegList = new ArrayList <Registration>();
 	}
-	public int getSecNum() {
-		return secNum;
-	}
-	public void setSecNum(int secNum) {
-		this.secNum = secNum;
-	}
-	public int getSecCap() {
-		return secCap;
-	}
-	public void setSecCap(int secCap) {
-		this.secCap = secCap;
-	}
+
 
 	public boolean isActive() {
 		return offeringRegList.size() >= 6;
@@ -38,8 +32,8 @@ public class CourseOffering {
 	@Override
 	public String toString () {
 		String st = "\n";
-		st += getTheCourse().getCourseName() + " " + getTheCourse().getCourseNum() + "\n";
-		st += "Section Num: " + getSecNum() + ", section cap: "+ getSecCap() +"\n";
+		st += getTheCourse().getCourseName() + " " + getTheCourse().getCourseID() + "\n";
+		st += "Section Num: " + getCourseOfferingNum() + ", section cap: "+ getSecCap() +"\n";
 		//We also want to print the names of all students in the section
 		return st;
 	}
@@ -50,6 +44,54 @@ public class CourseOffering {
 	public void removeRegistration(Registration reg ) {
 	    // DVIPOND TODO: remove course from student!
 	    offeringRegList.remove(reg);
+	}
+
+
+	/**
+	 * @return the courseOfferingNum
+	 */
+	public int getCourseOfferingNum() {
+		return courseOfferingNum;
+	}
+
+
+	/**
+	 * @param courseOfferingNum the courseOfferingNum to set
+	 */
+	public void setCourseOfferingNum(int courseOfferingNum) {
+		this.courseOfferingNum = courseOfferingNum;
+	}
+
+
+	/**
+	 * @return the secCap
+	 */
+	public int getSecCap() {
+		return secCap;
+	}
+
+
+	/**
+	 * @param secCap the secCap to set
+	 */
+	public void setSecCap(int secCap) {
+		this.secCap = secCap;
+	}
+
+
+	/**
+	 * @return the courseOfferingID
+	 */
+	public int getCourseOfferingID() {
+		return courseOfferingID;
+	}
+
+
+	/**
+	 * @param courseOfferingID the courseOfferingID to set
+	 */
+	public void setCourseOfferingID(int courseOfferingID) {
+		this.courseOfferingID = courseOfferingID;
 	}
 	
 	

@@ -1,6 +1,8 @@
 package backend.models;
 import java.io.Serializable;
 
+/** Fixing toString function required **/
+
 public class Course implements Serializable{
 
 	private static final long serialVersionUID = 2L;
