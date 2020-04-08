@@ -1,8 +1,6 @@
-package Server;
+package backend.server;
 
-
-import Models.*;
-
+import backend.models.*;
 import java.io.BufferedReader;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;

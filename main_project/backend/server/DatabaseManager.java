@@ -1,8 +1,8 @@
-package Server;
+package backend.server;
 // TODO: UNCOMMENT!!
 //package Database;
 
-import Models.*;
+import backend.models.*;
 //import Database.*;
 
 import java.util.ArrayList;

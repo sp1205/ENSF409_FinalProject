@@ -1,4 +1,4 @@
-package Server;
+package backend.server;
 
 /**
  * Used by clients to create server messages

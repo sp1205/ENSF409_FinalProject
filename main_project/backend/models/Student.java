@@ -1,4 +1,4 @@
-package Models;
+package backend.models;
 import java.io.Serializable;
 
 public class Student implements Serializable{

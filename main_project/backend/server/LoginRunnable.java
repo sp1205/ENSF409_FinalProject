@@ -1,4 +1,4 @@
-package Server;
+package backend.server;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;

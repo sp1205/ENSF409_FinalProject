@@ -1,4 +1,4 @@
-package Server;
+package backend.server;
 
 import com.sun.xml.internal.ws.api.message.Message;
 
