@@ -6,11 +6,11 @@ public class Course implements Serializable{
 	private static final long serialVersionUID = 2L;
 
 	private String courseName;
-	private int courseNum;
+	private int courseID;
 
-	public Course(String courseName, int courseNum) {
+	public Course(String courseName, int courseID) {
 		this.setCourseName(courseName);
-		this.setCourseNum(courseNum);
+		this.setCourseID(courseID);
 	}
 
 	public String getCourseName() {
@@ -21,17 +21,17 @@ public class Course implements Serializable{
 		this.courseName = courseName;
 	}
 
-	public int getCourseNum() {
-		return courseNum;
+	public int getCourseID() {
+		return courseID;
 	}
 
-	public void setCourseNum(int courseNum) {
-		this.courseNum = courseNum;
+	public void setCourseID(int courseNum) {
+		this.courseID = courseNum;
 	}
 	@Override
 	public String toString () {
 		String st = "\n";
-		st += getCourseName() + " " + getCourseNum ();
+		st += getCourseName() + " " + getCourseID ();
 		st += "\n-------\n";
 		return st;
 	}
