@@ -1,6 +1,6 @@
-package test;
-import Models.*;
-import Server.*;
+package backend.test_client;
+import backend.models.*;
+import backend.server.*;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
