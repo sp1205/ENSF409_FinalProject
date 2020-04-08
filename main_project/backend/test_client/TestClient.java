@@ -71,10 +71,10 @@ public class TestClient {
 				in = stdIn.readLine();
 
 				if (in.equals( StudentQueries.searchCourse)) {
-					System.out.println("Enter Course Id");
-					String courseId = stdIn.readLine();
+					System.out.println("Enter Course Name");
+					String courseName = stdIn.readLine();
 					
-					sendString(mb.searchCourseMessage(courseId));
+					sendString(mb.searchCourseMessage(courseName));
 					
 					System.out.println("Client: waiting for response");
 					response = socketIn.readLine();
@@ -87,16 +87,26 @@ public class TestClient {
 					System.out.println(course);
 				}
 				else if (in.equals( StudentQueries.addCourseToStudent)) {
-					System.out.println("Enter Course Id");
-					String courseId = stdIn.readLine();
+					System.out.println("Enter Course Name");
+					String courseNam = stdIn.readLine();
 
-					sendString(mb.addCourseToStudentMessage(courseId));
+					sendString(mb.addCourseToStudentMessage(courseNam));
+
+					System.out.println("Client: waiting for response");
+					response = socketIn.readLine();
+
+					System.out.println(response);
 				}
 				else if (in.equals( StudentQueries.removeCourseFromStudent)) {
-					System.out.println("Enter Course Id");
-					String courseId = stdIn.readLine();
+					System.out.println("Enter Course Name");
+					String courseName = stdIn.readLine();
 
-					sendString(mb.removeCourseFromStudentMessage(courseId));
+					sendString(mb.removeCourseFromStudentMessage(courseName));
+
+					System.out.println("Client: waiting for response");
+					response = socketIn.readLine();
+
+					System.out.println(response);
 				}
 				else if (in.equals(StudentQueries.listCourses)) {
 					sendString(mb.listCoursesMessage());
@@ -114,6 +124,17 @@ public class TestClient {
 				}
 				else if (in.equals( StudentQueries.allCoursesTakenByStudent)) {
 					sendString(mb.allCoursesTakenByStudentMessage());
+
+					System.out.println("Client: waiting for response");
+					response = socketIn.readLine();
+					System.out.println(response);
+
+					System.out.println("Client: waiting for arrayList");
+					ArrayList<Registration> list = (ArrayList<Registration>) m_readObject.readObject();
+
+					for (Registration reg : list) {
+						System.out.println(reg);
+					}
 				}
 			}
 			
