@@ -86,7 +86,7 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
     private void allCoursesTakenByStudent(ArrayList<String> message) {
         System.out.println("StudentRunnable: sending Course List");
 
-        ArrayList<Registration> list =  m_db.getCoursesByStudent(message.get(1));
+        ArrayList<Registration> list =  m_db.getCoursesByStudent(m_user.getStudentName());
 
         if (list == null) {
             sendResponse(false, null, "Not registered in any courses");

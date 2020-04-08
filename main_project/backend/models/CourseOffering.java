@@ -1,10 +1,15 @@
 package backend.models;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /** Fixing toString function required **/
 
-public class CourseOffering {
+public class CourseOffering implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int courseOfferingID;
 	private Course theCourse;
 	private int courseOfferingNum;

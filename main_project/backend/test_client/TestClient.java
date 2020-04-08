@@ -131,6 +131,7 @@ public class TestClient {
 
 					System.out.println("Client: waiting for arrayList");
 					ArrayList<Registration> list = (ArrayList<Registration>) m_readObject.readObject();
+					System.out.println(list.size());
 
 					for (Registration reg : list) {
 						System.out.println(reg);

@@ -1,8 +1,14 @@
 package backend.models;
 
+import java.io.Serializable;
+
 /** Fixing toString function required **/
 
-public class Registration {
+public class Registration implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Student theStudent;
 	private CourseOffering theOffering;
 	private int registrationID;
