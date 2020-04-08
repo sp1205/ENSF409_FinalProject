@@ -34,9 +34,12 @@ interface StudentQueries {
 public class StudentRunnable extends CustomRunnable implements  StudentQueries{
 
 	private DatabaseManager m_db;
-    StudentRunnable(PrintWriter p, BufferedReader r, ObjectOutputStream objOut, ObjectInputStream objIn, DatabaseManager db) {
+	private Student m_user;
+    StudentRunnable(PrintWriter p, BufferedReader r, ObjectOutputStream objOut,
+                    ObjectInputStream objIn, DatabaseManager db, Student user) {
         super(p, r, objOut, objIn);
         m_db = db;
+        m_user = user;
     }
 
     @Override
@@ -59,9 +62,7 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
             return;
         }
 
-    	int uid = Integer.parseInt(message.get(1));
-    	
-    	Course course = m_db.searchCourse(uid);
+    	Course course = m_db.searchCourse(message.get(1));
 
     	if (course == null) {
     	    sendResponse(false, null, "Unable to find course: " + message.get(1));
@@ -82,10 +83,10 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
     	sendResponse(true, list, null);
     }
 
-    private void allCoursesTakenByStudent() {
+    private void allCoursesTakenByStudent(ArrayList<String> message) {
         System.out.println("StudentRunnable: sending Course List");
 
-        ArrayList<Course> list =  m_db.getCoursesByStudent();
+        ArrayList<Registration> list =  m_db.getCoursesByStudent(message.get(1));
 
         if (list == null) {
             sendResponse(false, null, "Not registered in any courses");
@@ -100,14 +101,19 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
             return;
         }
 
-        int uid = Integer.parseInt(message.get(1));
+        String uid = message.get(1);
         Course course = m_db.searchCourse(uid);
         if (course == null) {
             sendResponse(false, null, "Course: " + uid + " does not exist in database");
+            return;
         }
 
-        m_db.addCourseToStudent(uid);
-        sendResponse(true, null, null);
+        if (m_db.addCourseToStudent(m_user.getStudentId(), course.getCourseID())) {
+            sendResponse(true, null, null);
+        }
+        else {
+            sendResponse(false, null, "Unable to register student into course: " + uid);
+        }
     }
 
     private void removeCourseFromStudent(ArrayList<String> message) {
@@ -116,14 +122,19 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
             return;
         }
 
-        int uid = Integer.parseInt(message.get(1));
+        String uid = (message.get(1));
         Course course = m_db.searchCourse(uid);
         if (course == null) {
             sendResponse(false, null, "Course: " + uid + " does not exist in database");
+            return;
         }
 
-        m_db.removeCourseFromStudent(uid);
-        sendResponse(true, null, null);
+        if (m_db.removeCourseFromStudent(m_user.getStudentId(), course.getCourseID())) {
+            sendResponse(true, null, null);
+        }
+        else {
+            sendResponse(false, null, "Unable to remove student from course: " + uid);
+        }
     }
 
     public void handleInput(String in ) { return; }
@@ -149,7 +160,7 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
         	listCourses();
         }
         else if (in.equals( StudentQueries.allCoursesTakenByStudent)) {
-            allCoursesTakenByStudent();
+            allCoursesTakenByStudent(message);
         }
         else if (in.equals(StudentQueries.quit)) {
             stop();

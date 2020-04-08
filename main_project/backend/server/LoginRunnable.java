@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 
-import Models.Student;
-import Server.StudentRunnable;
+import backend.models.Student;
 
 import java.io.ObjectInputStream;
 
@@ -32,20 +31,16 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
     }
 
     public void loginStudent(ArrayList<String> message) {
-        Student student = m_db.login();
+        Student student = m_db.login(message.get(0));
         if (student == null) {
-            sendResponse(false, null, "Invalid Login");
-            return;
-        }
-
-        if (!student.getStudentName().equals(message.get(0))) {
-            sendResponse(false, null, "Invalid Username");
+            sendResponse(false, null, "Invalid Login Credentials");
             return;
         }
 
         sendResponse(true, null, null);
 
-        Runnable studentRunnable = new StudentRunnable(m_sendString, m_readString, m_sendObject, m_readObject, m_db);
+        Runnable studentRunnable = new StudentRunnable(m_sendString, m_readString, m_sendObject,
+                m_readObject, m_db, student);
 
         studentRunnable.run();
         stop();

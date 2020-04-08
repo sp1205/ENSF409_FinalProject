@@ -17,7 +17,10 @@ public class DatabaseConnector implements Constants {
 	private ArrayList<Course> courses;
 	private ArrayList<Registration> registrations;
 	private ArrayList<CourseOffering> courseOfferings;
-	
+
+	private Hashtable<String, Student> studentsMap;
+	private Hashtable<String, Course> courseMap;
+
 
 	public DatabaseConnector() {
 		System.out.println("Starting conection now");
@@ -31,6 +34,16 @@ public class DatabaseConnector implements Constants {
 		}
 		
 		this.objectsFromSQL();
+
+		studentsMap = new Hashtable<String, Student>();
+		courseMap = new Hashtable<String, Course>();
+
+		for (Course c : courses) {
+			courseMap.put(c.getCourseName(), c);
+		}
+		for (Student c : students) {
+			studentsMap.put(c.getStudentName(), c);
+		}
 	}
 	
 	public void objectsFromSQL() {
@@ -303,8 +316,25 @@ public class DatabaseConnector implements Constants {
 	public void setCourseOfferings(ArrayList<CourseOffering> courseOfferings) {
 		this.courseOfferings = courseOfferings;
 	}
-	
-/******************************* Testing Code *******************************************************/	
+
+	/**
+	 *
+	 * @return hash table which maps student name -> student
+	 */
+	public Hashtable<String, Student> getStudentsMap() {
+		return studentsMap;
+	}
+
+	/**
+	 *
+	 * @return hash table which maps course name -> course
+	 */
+	public Hashtable<String, Course> getCourseMap() {
+		return courseMap;
+	}
+
+
+	/******************************* Testing Code *******************************************************/
 	public static void main(String[] args) {
 		DatabaseConnector test = new DatabaseConnector();
 	

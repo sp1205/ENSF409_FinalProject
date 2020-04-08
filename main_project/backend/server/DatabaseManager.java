@@ -8,44 +8,85 @@ import backend.models.*;
 import java.util.ArrayList;
 
 public class DatabaseManager {
+    DatabaseConnector m_dbConnector;
     DatabaseManager() {
-
+        m_dbConnector = new DatabaseConnector();
+        m_dbConnector.objectsFromSQL();
     }
 
-    public Course searchCourse(int uid) {
+    public Course searchCourse(String courseName) {
     	System.out.println("DatabaseManager::searchCourse");
 
-    	if (uid < 0) {
-    	    return null;
+    	Course c = m_dbConnector.getCourseMap().get(courseName);
+
+        if (c == null) {
+            System.out.println("DatabaseManager::searchCourse unable to find course " + courseName);
+            return null;
         }
-    	return new Course("ENCM", uid);
+
+    	return c;
     }
 
-    public void addCourseToStudent(int courseId) {
+    public boolean addCourseToStudent(int studentId, int courseId) {
+        CourseOffering offering = null;
+        for (CourseOffering c : m_dbConnector.getCourseOfferings()) {
+            if (c.getTheCourse().getCourseID() == courseId) {
+                offering = c;
+                break;
+            }
+        }
 
+        if (offering == null) {
+            return false;
+        }
+
+        m_dbConnector.registerStudent(studentId, offering.getCourseOfferingID() );
+        m_dbConnector.objectsFromSQL();
+
+        return true;
     }
 
-    public void removeCourseFromStudent(int courseId) {
+    public boolean removeCourseFromStudent(int studentId, int courseId) {
+        Registration found = null;
+        for (Registration r : m_dbConnector.getRegistrations()) {
+            if (r.getTheStudent().getStudentId() == studentId &&
+                r.getTheOffering().getTheCourse().getCourseID() == courseId) {
+                found = r;
+                break;
+            }
+        }
 
+        if (found == null) {
+            return false;
+        }
+
+        m_dbConnector.deleteRegistration(found.getRegistrationID());
+        return true;
     }
 
-    public ArrayList<Course> getCoursesByStudent() {
-        return null;
+    public ArrayList<Registration> getCoursesByStudent(String studentName) {
+        ArrayList<Registration> studentRegList = new ArrayList<Registration>();
+
+        for (Registration c : m_dbConnector.getRegistrations()) {
+            if (c.getTheStudent().getStudentName().equals(studentName)) {
+                studentRegList.add(c);
+            }
+        }
+
+        return studentRegList;
     }
 
     public ArrayList<Course> getAllCourses() {
-    	System.out.println("DatabaseManager::getAllCourses");
-    	ArrayList<Course> list = new ArrayList<Course>();
-    	list.add(new Course("ENGG", 233));
-    	list.add(new Course("ENGG", 209));
-    	list.add(new Course("ENEL", 439));
-    	list.add(new Course("ENCM", 211));
-    	list.add(new Course("ENOG", 825));
-    	
-    	return list;
+        return m_dbConnector.getCourses();
     }
 
-    public Student login() {
-        return new Student("Devon", 300);
+    public Student login(String studentName) {
+        for (Student s : m_dbConnector.getStudents()) {
+            if (s.getStudentName().equals(studentName)) {
+                return s;
+            }
+        }
+
+        return null;
     }
 }
