@@ -20,7 +20,7 @@ public class Registration implements Serializable {
 		this.setGrade('U');
 	}
 
-	boolean completeRegistration (Student st, CourseOffering of) {
+	public boolean completeRegistration (Student st, CourseOffering of) {
 		// DVIPOND TODO: figure out a way to implement max courses
 		//if (st.numCourses() >= MAX_COURSES_PER_STUDENT) {
 		//	System.out.println(st.getStudentName() + " is unable to reister" +

@@ -18,6 +18,11 @@ public class DatabaseConnector implements Constants {
 	private ArrayList<Registration> registrations;
 	private ArrayList<CourseOffering> courseOfferings;
 
+	private ArrayList<String> exitQueriesSQL;
+	
+	private Hashtable<Integer, Registration> registrationMap;
+	private Hashtable<Integer, CourseOffering> courseOfferingMap;
+	private Hashtable<Integer, Student> studentIDMap;
 	private Hashtable<String, Student> studentsMap;
 	private Hashtable<String, Course> courseMap;
 
@@ -34,16 +39,28 @@ public class DatabaseConnector implements Constants {
 		}
 		
 		this.objectsFromSQL();
+		this.setExitQueriesSQL(new ArrayList<String>());
+		
 
-		studentsMap = new Hashtable<String, Student>();
-		courseMap = new Hashtable<String, Course>();
-
-		for (Course c : courses) {
-			courseMap.put(c.getCourseName(), c);
+		this.studentsMap = new Hashtable<String, Student>();
+		this.courseMap = new Hashtable<String, Course>();
+		this.studentIDMap = new Hashtable<Integer, Student>();
+		this.registrationMap = new Hashtable<Integer, Registration>();
+		
+		for (Course c : this.courses) {
+			this.courseMap.put(c.getCourseName(), c);
 		}
-		for (Student c : students) {
-			studentsMap.put(c.getStudentName(), c);
+		for (Student c : this.students) {
+			this.studentsMap.put(c.getStudentName(), c);
+			this.studentIDMap.put(c.getStudentId(), c);
 		}
+		for(CourseOffering c : this.courseOfferings) {
+			this.courseOfferingMap.put(c.getCourseOfferingID(), c);
+		}
+		for(Registration c : this.registrations) {
+			this.registrationMap.put(c.getRegistrationID(), c);
+		}
+		
 	}
 	
 	public void objectsFromSQL() {
@@ -196,44 +213,83 @@ public class DatabaseConnector implements Constants {
 		this.setRegistrations(reg);
 	}
 	
-	public String registerStudent(int studentID, int courseOfferingID) {
+	public void registerStudent(int studentID, int courseOfferingID) {
+		int tempRegID = this.getRegistrations().get(this.getRegistrations().size() - 1).getRegistrationID();
+		Registration r = new Registration(tempRegID+1);
+		Student st = this.getStudentIDMap().get(studentID);
+		if(st == null) {
+			System.out.println("Error registering student!");
+		}
+		CourseOffering ct = this.getCourseOfferingMap().get(courseOfferingID);
+		if(ct == null) {
+			System.out.println("Error registering student - CourseOffering not found!");
+		}
+		
+		r.completeRegistration(st, ct);
+		
+		
 		String s = "";
 		s += "INSERT INTO coursedb.tblregistration ";
 		s += "(StudentID, CourseOfferingID) ";
 		s += "values ('" +  Integer.toString(studentID) + "', '" + Integer.toString(courseOfferingID) + "')";
 
 		
-		try {
-			Statement toExecute = this.getMyConnection().createStatement();
-			toExecute.executeUpdate(s);
-			System.out.println("Registered student "+studentID+" for courseOffering:"+courseOfferingID);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Registration not successful");
-		}
+		this.getExitQueriesSQL().add(s);
 		
+//		try {
+//			Statement toExecute = this.getMyConnection().createStatement();
+//			toExecute.executeUpdate(s);
+//			System.out.println("Registered student "+studentID+" for courseOffering:"+courseOfferingID);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			System.out.println("Registration not successful");
+//		}
+//		
 		
-		return s;
+//		return s;
 	}
 	
-	public String deleteRegistration(int registrationID) {
+	public void deleteRegistration(int registrationID) {
+		
+		Registration r = this.getRegistrationMap().get(registrationID);
+		this.getRegistrations().remove(r);
+		this.getRegistrationMap().remove(registrationID, r);
+		
 		String s = "";
 		s += "DELETE FROM coursedb.tblregistration ";
 		s += "WHERE RegistrationID="+Integer.toString(registrationID);
 		
-		try {
-			Statement toExecute = this.getMyConnection().createStatement();
-			int rowsDeleted = toExecute.executeUpdate(s);
-			System.out.println("Deleted "+rowsDeleted+" rows from tblRegistration");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Removal not successful");
+		this.getExitQueriesSQL().add(s);
+		
+//		try {
+//			Statement toExecute = this.getMyConnection().createStatement();
+//			int rowsDeleted = toExecute.executeUpdate(s);
+//			System.out.println("Deleted "+rowsDeleted+" rows from tblRegistration");
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			System.out.println("Removal not successful");
+//		}
+//		
+		
+//		return s;	
+	}
+	
+	public void committToSQL() {
+		int x = 0;
+		for(String c : this.getExitQueriesSQL()) {
+			x++;
+			try {
+				Statement toExecute = this.getMyConnection().createStatement();
+				toExecute.executeUpdate(c);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("Update "+x+" to database failed!");
+			}
 		}
 		
-		
-		return s;	
 	}
 	
 	
@@ -338,9 +394,79 @@ public class DatabaseConnector implements Constants {
 	public static void main(String[] args) {
 		DatabaseConnector test = new DatabaseConnector();
 	
-		System.out.println(test.registerStudent(10, 20));
+//		System.out.println(test.registerStudent(10, 20));
 	}
 /****************************************************************************************************/
+
+	/**
+	 * @return the exitQueriesSQL
+	 */
+	public ArrayList<String> getExitQueriesSQL() {
+		return exitQueriesSQL;
+	}
+
+	/**
+	 * @param exitQueriesSQL the exitQueriesSQL to set
+	 */
+	public void setExitQueriesSQL(ArrayList<String> exitQueriesSQL) {
+		this.exitQueriesSQL = exitQueriesSQL;
+	}
+
+	/**
+	 * @return the studentIDMap
+	 */
+	public Hashtable<Integer, Student> getStudentIDMap() {
+		return studentIDMap;
+	}
+
+	/**
+	 * @param studentIDMap the studentIDMap to set
+	 */
+	public void setStudentIDMap(Hashtable<Integer, Student> studentIDMap) {
+		this.studentIDMap = studentIDMap;
+	}
+
+	/**
+	 * @return the courseOfferingMap
+	 */
+	public Hashtable<Integer, CourseOffering> getCourseOfferingMap() {
+		return courseOfferingMap;
+	}
+
+	/**
+	 * @param courseOfferingMap the courseOfferingMap to set
+	 */
+	public void setCourseOfferingMap(Hashtable<Integer, CourseOffering> courseOfferingMap) {
+		this.courseOfferingMap = courseOfferingMap;
+	}
+	
+	/**
+	 * @return the registrationMap
+	 */
+	public Hashtable<Integer, Registration> getRegistrationMap() {
+		return registrationMap;
+	}
+
+	/**
+	 * @param registrationMap the registrationMap to set
+	 */
+	public void setRegistrationMap(Hashtable<Integer, Registration> registrationMap) {
+		this.registrationMap = registrationMap;
+	}
+
+	/**
+	 * @param studentsMap the studentsMap to set
+	 */
+	public void setStudentsMap(Hashtable<String, Student> studentsMap) {
+		this.studentsMap = studentsMap;
+	}
+
+	/**
+	 * @param courseMap the courseMap to set
+	 */
+	public void setCourseMap(Hashtable<String, Course> courseMap) {
+		this.courseMap = courseMap;
+	}
 	
 }
 		
