@@ -289,7 +289,6 @@ public class DatabaseConnector implements Constants {
 				System.out.println("Update "+x+" to database failed!");
 			}
 		}
-		
 	}
 	
 	
