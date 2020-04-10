@@ -41,7 +41,6 @@ public class DatabaseManager {
         }
 
         m_dbConnector.registerStudent(studentId, offering.getCourseOfferingID() );
-        m_dbConnector.objectsFromSQL();
 
         return true;
     }
@@ -61,7 +60,6 @@ public class DatabaseManager {
         }
 
         m_dbConnector.deleteRegistration(found.getRegistrationID());
-        m_dbConnector.objectsFromSQL();
         return true;
     }
 
@@ -89,5 +87,9 @@ public class DatabaseManager {
         }
 
         return null;
+    }
+
+    public void commit() {
+        m_dbConnector.committToSQL();
     }
 }

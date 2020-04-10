@@ -185,6 +185,7 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
                 handleInput(userInput);
             }
 
+            m_db.commit();
             shutdown();
         }
         catch (Exception e) {
