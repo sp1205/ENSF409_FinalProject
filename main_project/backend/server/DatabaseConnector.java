@@ -109,14 +109,6 @@ public class DatabaseConnector implements Constants {
 		}
 		for(CourseOffering c : this.courseOfferings) {
 			this.courseOfferingMap.put(c.getCourseOfferingID(), c);
-			Course course = this.courseMap.get(c.getTheCourse());
-
-			if (course == null) {
-				System.out.println("Unable to add courseOffering: " + c.toString() + " to course");
-				continue;
-			}
-
-			course.addCourseOffering(c);
 		}
 		for(Registration c : this.registrations) {
 			this.registrationMap.put(c.getRegistrationID(), c);
