@@ -315,6 +315,8 @@ public class DatabaseConnector implements Constants {
 		
 		r.completeRegistration(st, ct);
 		
+		this.registrations.add(r);
+		this.registrationMap.put(tempRegID+1, r);
 		
 		String s = "";
 		s += "INSERT INTO coursedb.tblregistration ";
@@ -355,6 +357,7 @@ public class DatabaseConnector implements Constants {
 			try {
 				Statement toExecute = this.getMyConnection().createStatement();
 				toExecute.executeUpdate(c);
+				System.out.println("Committed query "+x+"to database");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

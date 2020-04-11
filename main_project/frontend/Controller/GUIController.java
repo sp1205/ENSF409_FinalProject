@@ -3,6 +3,7 @@ package frontend.Controller;
 import frontend.GUI.StudentGUI;
 import backend.models.Course;
 import backend.models.CourseOffering;
+import backend.models.Registration;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -121,13 +122,13 @@ public class GUIController {
      * Requests and displays all student courses to the GUI.
      */
     public void viewAllStudentCourses(){
-        ArrayList<Course> courses = (ArrayList<Course>) serverConnection.communicateListStudentCourses();  // TODO figure out arraylist
-        if(courses == null){
+        ArrayList<Registration> reg = (ArrayList<Registration>) serverConnection.communicateListStudentCourses();  // TODO figure out arraylist
+        if(reg == null){
             view.showMessageWindow("Error getting information from server");
         }
         else{
             view.displayResponseText("The courses that the student is taking are");
-            displayCourses(courses);
+            displayRegistration(reg);
         }
     }
 
@@ -143,6 +144,11 @@ public class GUIController {
         }
     }
 
+    public void displayRegistration(ArrayList<Registration> regs){
+        for(Registration r : regs){
+                 view.displayResponseText(r.toString());
+        }
+    }
     public static void main(String[] args){
         StudentGUI view= new StudentGUI("Main App");
         ComController comms = new ComController("localhost", 8040);

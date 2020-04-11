@@ -37,7 +37,7 @@ public class CourseOffering implements Serializable{
 	@Override
 	public String toString () {
 		String st = "\n";
-		st += getTheCourse().getCourseName() + " " + getTheCourse().getCourseID() + "\n";
+		st += getTheCourse().getCourseName() + "\n";
 		st += "Section Num: " + getCourseOfferingNum() + ", section cap: "+ getSecCap() +"\n";
 		//We also want to print the names of all students in the section
 		return st;
