@@ -174,6 +174,12 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
         }
     }
 
+    @Override
+    protected void stop() {
+        m_db.commit();
+        super.stop();
+    }
+
     public void run() {
         System.out.println("Student runnable started");
         try {
@@ -185,7 +191,6 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
                 handleInput(userInput);
             }
 
-            m_db.commit();
             shutdown();
         }
         catch (Exception e) {
