@@ -4,32 +4,84 @@ import java.util.*;
 import backend.models.*;
 import java.sql.*;
 
+/**
+ * Constants being used in the following class DatabaseConnector
+ * @author Janam Marthak
+ *
+ */
 interface Constants {
+	
+	/**
+	 * URL for the jdbc connection to database
+	 */
 	static final String URL = "jdbc:mysql://localhost:3306/coursedb";
+	/**
+	 * USERID for database
+	 */
 	static final String USER = "root";
+	/**
+	 * Password for database for the user defined above
+	 */
 	static final String PASSWORD = "root";	
 }
 
 public class DatabaseConnector implements Constants {
-	
+	/**
+	 * Connection member variable for the database
+	 */
 	Connection myConnection;
+	/**
+	 * ArrayList that stores all the students from database
+	 */
 	private ArrayList<Student> students;
+	/**
+	 * ArrayList that stores all the courses from database
+	 */
 	private ArrayList<Course> courses;
+	/**
+	 * ArrayList that stores all the registrations from database
+	 */
 	private ArrayList<Registration> registrations;
+	/**
+	 * ArrayList that stores all the courseOfferings from database
+	 */
 	private ArrayList<CourseOffering> courseOfferings;
 
+	/**
+	 * ArrayList that stores the buffer for insert/delete queries to be executed at exit to commit to database
+	 */
 	private ArrayList<String> exitQueriesSQL;
 	
+	/**
+	 * HashTable to find Registration object using Registration ID
+	 */
 	private Hashtable<Integer, Registration> registrationMap;
+	/**
+	 * HashTable to find CourseOffering object using CourseOfferingID
+	 */
 	private Hashtable<Integer, CourseOffering> courseOfferingMap;
+	/**
+	 * HashTable to find Student object using Student ID
+	 */
 	private Hashtable<Integer, Student> studentIDMap;
+	/**
+	 * HashTable to find Student object using Student name
+	 */
 	private Hashtable<String, Student> studentsMap;
+	/**
+	 * HashTable to find Course object using course name
+	 */
 	private Hashtable<String, Course> courseMap;
 
-
+	/**
+	 * Default constructor which constructs the DatabaseConnector, initiates connection to database
+	 * and runs the queries and the functions below to pull data from database and put it inside the
+	 * member variable array lists to work with locally.
+	 */
 	public DatabaseConnector() {
 		System.out.println("Starting conection now");
 		try {
+			//Connecting to database on localhost
 			this.myConnection = DriverManager.getConnection(URL, USER, PASSWORD);
 			System.out.println("Connection successful!");
 		} catch (SQLException e) {
@@ -37,16 +89,17 @@ public class DatabaseConnector implements Constants {
 			e.printStackTrace();
 			System.out.println("Connection unsuccessful!");
 		}
-		
+		//method executed to pull data from SQL database and store them inside model objects
 		this.objectsFromSQL();
+		//Initiating the exit queries buffer
 		this.setExitQueriesSQL(new ArrayList<String>());
-		
 
 		this.studentsMap = new Hashtable<String, Student>();
 		this.courseMap = new Hashtable<String, Course>();
 		this.studentIDMap = new Hashtable<Integer, Student>();
 		this.registrationMap = new Hashtable<Integer, Registration>();
 		
+		//populating HashTables
 		for (Course c : this.courses) {
 			this.courseMap.put(c.getCourseName(), c);
 		}
@@ -56,14 +109,6 @@ public class DatabaseConnector implements Constants {
 		}
 		for(CourseOffering c : this.courseOfferings) {
 			this.courseOfferingMap.put(c.getCourseOfferingID(), c);
-			Course course = this.courseMap.get(c.getTheCourse());
-
-			if (course == null) {
-				System.out.println("Unable to add courseOffering: " + c.toString() + " to course");
-				continue;
-			}
-
-			course.addCourseOffering(c);
 		}
 		for(Registration c : this.registrations) {
 			this.registrationMap.put(c.getRegistrationID(), c);
@@ -71,6 +116,10 @@ public class DatabaseConnector implements Constants {
 		
 	}
 	
+	/**
+	 * This method calls all the methods that contain queries to pull data from SQL database
+	 * and store them inside member variables
+	 */
 	public void objectsFromSQL() {
 		this.getStudentsSQL();
 		System.out.println("Imported tblstudents successfully!");
@@ -81,6 +130,7 @@ public class DatabaseConnector implements Constants {
 		this.getRegstrationSQL();
 		System.out.println("Imported tblregistration successfully!");
 		
+		//Populating registration objects inside CourseOfferings
 		for(CourseOffering x: this.getCourseOfferings()) {
 			for(Registration c: this.getRegistrations()) {
 				if(x.getCourseOfferingID() == c.getTheOffering().getCourseOfferingID()) {
@@ -90,11 +140,23 @@ public class DatabaseConnector implements Constants {
 			}
 		}
 		
+		//Populating CourseOffering objects inside relevant course
+		for(Course c: this.getCourses()) {
+			for(CourseOffering x: this.getCourseOfferings()) {
+				if(c.getCourseID() == x.getTheCourse().getCourseID()) {
+					c.addCourseOffering(x);
+				}
+			}
+		}
+		
 		System.out.println("Organized CourseOffering objects successfully by searching registration objects!");
 		
 	}
 	
-	
+	/**
+	 * This method gets the tblStudents table from the SQL database and and stores the data inside 
+	 * Students ArrayList member variable as Student objects
+	 */
 	public void getStudentsSQL() {
 		ArrayList<Student> students = new ArrayList<Student>();
 		
@@ -116,6 +178,10 @@ public class DatabaseConnector implements Constants {
 		this.setStudents(students);
 	}
 	
+	/**
+	 * This method gets the tblCourses table from the SQL database and stores the data inside
+	 * Course objects in the Courses ArrayList member variable
+	 */
 	public void getCoursesSQL() {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		
@@ -137,6 +203,10 @@ public class DatabaseConnector implements Constants {
 		this.setCourses(courses);
 	}
 	
+	/**
+	 * This method gets the tblCourseOffering table from the SQL database and stores the data inside
+	 * CourseOffering objects in the CourseOfferings ArrayList member variable
+	 */
 	public void getCourseOfferingSQL() {
 		ArrayList<CourseOffering> cof = new ArrayList<CourseOffering>();
 		
@@ -172,7 +242,10 @@ public class DatabaseConnector implements Constants {
 		this.setCourseOfferings(cof);
 	}
 	
-	
+	/**
+	 * This method gets the tblRegistration table from the SQL database and stores the data inside
+	 * Registration objects in the Registrations ArrayList member variable
+	 */
 	public void getRegstrationSQL() {
 		ArrayList<Registration> reg = new ArrayList<Registration>();
 		
@@ -221,6 +294,12 @@ public class DatabaseConnector implements Constants {
 		this.setRegistrations(reg);
 	}
 	
+	/**
+	 * This method creates an insert query for a student to register in a course 
+	 * and stores it in the exitQueries buffer
+	 * @param studentID ID of student
+	 * @param courseOfferingID ID of courseOffering to be registered
+	 */
 	public void registerStudent(int studentID, int courseOfferingID) {
 		int tempRegID = this.getRegistrations().get(this.getRegistrations().size() - 1).getRegistrationID();
 		Registration r = new Registration(tempRegID+1);
@@ -244,20 +323,13 @@ public class DatabaseConnector implements Constants {
 		
 		this.getExitQueriesSQL().add(s);
 		
-//		try {
-//			Statement toExecute = this.getMyConnection().createStatement();
-//			toExecute.executeUpdate(s);
-//			System.out.println("Registered student "+studentID+" for courseOffering:"+courseOfferingID);
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			System.out.println("Registration not successful");
-//		}
-//		
-		
-//		return s;
 	}
 	
+	/**
+	 * This method creates a delete query for a student to delete a course from his/her roster
+	 * and stores the query in the exitQueries buffer
+	 * @param registrationID
+	 */
 	public void deleteRegistration(int registrationID) {
 		
 		Registration r = this.getRegistrationMap().get(registrationID);
@@ -269,21 +341,12 @@ public class DatabaseConnector implements Constants {
 		s += "WHERE RegistrationID="+Integer.toString(registrationID);
 		
 		this.getExitQueriesSQL().add(s);
-		
-//		try {
-//			Statement toExecute = this.getMyConnection().createStatement();
-//			int rowsDeleted = toExecute.executeUpdate(s);
-//			System.out.println("Deleted "+rowsDeleted+" rows from tblRegistration");
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			System.out.println("Removal not successful");
-//		}
-//		
-		
-//		return s;	
+			
 	}
 	
+	/**
+	 * This method executes the queries in the exit queries buffer one at a time 
+	 */
 	public void committToSQL() {
 		int x = 0;
 		for(String c : this.getExitQueriesSQL()) {
@@ -397,7 +460,7 @@ public class DatabaseConnector implements Constants {
 	}
 
 
-	/******************************* Testing Code *******************************************************/
+	/******************************* Testing Code - Not relevant to project *************************/
 	public static void main(String[] args) {
 		DatabaseConnector test = new DatabaseConnector();
 	
