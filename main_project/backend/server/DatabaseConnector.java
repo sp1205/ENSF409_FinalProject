@@ -357,7 +357,7 @@ public class DatabaseConnector implements Constants {
 			try {
 				Statement toExecute = this.getMyConnection().createStatement();
 				toExecute.executeUpdate(c);
-				System.out.println("Committed query "+x+"to database");
+				System.out.println("Committed query "+x+" to database");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
