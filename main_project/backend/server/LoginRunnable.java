@@ -43,7 +43,7 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
                  m_db, student);
 
         studentRunnable.run();
-        stop();
+        shutdown();
     }
 
     public void loginAdmin() {
@@ -60,7 +60,7 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
             return;
         }
         if (in.get(0).equals(StudentQueries.quit)){
-            stop();
+            shutdown();
             return;
         }
 
@@ -84,7 +84,7 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
         catch (Exception e) {
             System.out.println("Exception in LoginRunnable::run");
             e.printStackTrace();
-            stop();
+            shutdown();
         }
         shutdown();
     }
