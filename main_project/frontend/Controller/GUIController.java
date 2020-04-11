@@ -145,7 +145,7 @@ public class GUIController {
 
     public static void main(String[] args){
         StudentGUI view= new StudentGUI("Main App");
-        ComController comms = null;
+        ComController comms = new ComController("localhost", 8040);
         GUIController studentApp = new GUIController(view, comms);
         studentApp.startAppLogin();
     }
