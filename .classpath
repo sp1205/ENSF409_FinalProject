@@ -3,7 +3,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="lib"/>
 	<classpathentry kind="src" path="pre_project"/>
-	<classpathentry kind="src" path="main_project"/>
+	<classpathentry excluding="frontend/models/" kind="src" path="main_project"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.19/mysql-connector-java-8.0.19.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
