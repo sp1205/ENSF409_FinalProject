@@ -1,8 +1,8 @@
-package frontend.Controller;
+package Controller;
 
-import frontend.GUI.StudentGUI;
-import backend.models.Course;
-import backend.models.CourseOffering;
+import GUI.StudentGUI;
+import models.Course;
+import models.CourseOffering;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -60,6 +60,8 @@ public class GUIController {
             view.showMessageWindow("There were no results for the search");
         }
         else{
+            view.clearTextDisplay();
+            view.displayResponseText("The results of the search are:");
             displaySearchResult(c);
         }
     }
@@ -69,7 +71,6 @@ public class GUIController {
      * @param course the course object to display
      */
     public void displaySearchResult(Course course){
-        view.displayResponseText("The results of the search are:");
         for(CourseOffering co : course.getCourseOfferingList()){
             view.displayResponseText(co.toString());
         }
@@ -112,6 +113,7 @@ public class GUIController {
             view.showMessageWindow("Error getting information from server");
         }
         else{
+            view.clearTextDisplay();
             view.displayResponseText("The list of courses available is");
             displayCourses(courses);
         }
@@ -126,6 +128,7 @@ public class GUIController {
             view.showMessageWindow("Error getting information from server");
         }
         else{
+            view.clearTextDisplay();
             view.displayResponseText("The courses that the student is taking are");
             displayCourses(courses);
         }
