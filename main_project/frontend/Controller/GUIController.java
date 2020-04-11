@@ -112,7 +112,7 @@ public class GUIController {
             view.showMessageWindow("Error getting information from server");
         }
         else{
-            view.showMessageWindow("The list of courses available is");
+            view.displayResponseText("The list of courses available is");
             displayCourses(courses);
         }
     }
@@ -126,7 +126,7 @@ public class GUIController {
             view.showMessageWindow("Error getting information from server");
         }
         else{
-            view.showMessageWindow("The courses that the student is taking are");
+            view.displayResponseText("The courses that the student is taking are");
             displayCourses(courses);
         }
     }
@@ -138,7 +138,7 @@ public class GUIController {
     public void displayCourses(ArrayList<Course> courses){
         for(Course course : courses){
             for(CourseOffering co : course.getCourseOfferingList()){
-                view.showMessageWindow(co.toString());
+                view.displayResponseText(co.toString());
             }
         }
     }
