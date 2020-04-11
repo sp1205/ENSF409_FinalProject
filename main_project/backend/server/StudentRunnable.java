@@ -163,11 +163,11 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
             allCoursesTakenByStudent(message);
         }
         else if (in.equals(StudentQueries.quit)) {
-            stop();
+            shutdown();
         }
         else if (in.equals("")) {
         	System.out.println("Server::handleInput null input received. Terminating");
-            stop();
+        	shutdown();
         }
         else {
             sendString("Unknown input: " + in);
@@ -196,7 +196,6 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
         catch (Exception e) {
             System.out.println("Exception in StudentRunnable::run");
             e.printStackTrace();
-            stop();
             shutdown();
         }
     }
