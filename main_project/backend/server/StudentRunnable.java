@@ -35,6 +35,7 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
 
 	private DatabaseManager m_db;
 	private Student m_user;
+	private boolean m_hasCommited = false;
     StudentRunnable(PrintWriter p, BufferedReader r, ObjectOutputStream objOut,
                      DatabaseManager db, Student user) {
         super(p, r, objOut);
@@ -176,7 +177,10 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
 
     @Override
     protected void stop() {
-        m_db.commit();
+        if (m_hasCommited == false) {
+            m_hasCommited = true;
+            m_db.commit();
+        }
         super.stop();
     }
 

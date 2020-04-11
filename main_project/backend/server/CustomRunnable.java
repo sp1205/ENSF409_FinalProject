@@ -14,6 +14,7 @@ public abstract class CustomRunnable implements Runnable {
 
     protected boolean m_running;
 
+
     CustomRunnable(PrintWriter p, BufferedReader r, 
                     ObjectOutputStream objOut) {
         m_sendString = p;
