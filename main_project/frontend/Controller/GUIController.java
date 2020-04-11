@@ -1,8 +1,8 @@
-package Controller;
+package frontend.Controller;
 
-import GUI.StudentGUI;
-import models.Course;
-import models.CourseOffering;
+import frontend.GUI.StudentGUI;
+import backend.models.Course;
+import backend.models.CourseOffering;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;

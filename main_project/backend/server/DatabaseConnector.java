@@ -98,6 +98,7 @@ public class DatabaseConnector implements Constants {
 		this.courseMap = new Hashtable<String, Course>();
 		this.studentIDMap = new Hashtable<Integer, Student>();
 		this.registrationMap = new Hashtable<Integer, Registration>();
+		this.courseOfferingMap = new Hashtable<Integer, CourseOffering>();
 		
 		//populating HashTables
 		for (Course c : this.courses) {
