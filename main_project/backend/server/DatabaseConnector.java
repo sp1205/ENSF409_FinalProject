@@ -351,9 +351,11 @@ public class DatabaseConnector implements Constants {
 	 * This method executes the queries in the exit queries buffer one at a time 
 	 */
 	public void committToSQL() {
+		System.out.println("commitToSQL called: " + counter++ + " times!");
 		int x = 0;
 		for(String c : this.getExitQueriesSQL()) {
 			x++;
+			
 			try {
 				Statement toExecute = this.getMyConnection().createStatement();
 				toExecute.executeUpdate(c);
@@ -541,6 +543,8 @@ public class DatabaseConnector implements Constants {
 	public void setCourseMap(Hashtable<String, Course> courseMap) {
 		this.courseMap = courseMap;
 	}
+	
+	static int counter = 0;
 	
 }
 		
