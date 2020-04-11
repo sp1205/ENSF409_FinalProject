@@ -15,6 +15,7 @@ public class Course implements Serializable{
 	public Course(String courseName, int courseID) {
 		this.setCourseName(courseName);
 		this.setCourseID(courseID);
+		this.courseOfferingArrayList = new ArrayList<CourseOffering>();
 	}
 
 	public ArrayList<CourseOffering> getCourseOfferingList() {

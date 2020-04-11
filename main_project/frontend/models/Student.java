@@ -1,4 +1,4 @@
-package models;
+package frontend.models;
 import java.io.Serializable;
 
 /** Fixing toString function required **/
