@@ -16,8 +16,8 @@ interface LoginQueries {
 public class LoginRunnable extends CustomRunnable implements LoginQueries{
     private DatabaseManager m_db;
 
-    LoginRunnable(PrintWriter p, BufferedReader r, ObjectOutputStream objOut, ObjectInputStream objIn, DatabaseManager db) {
-        super(p, r, objOut, objIn);
+    LoginRunnable(PrintWriter p, BufferedReader r, ObjectOutputStream objOut,  DatabaseManager db) {
+        super(p, r, objOut );
         m_db = db;
     }
 
@@ -40,7 +40,7 @@ public class LoginRunnable extends CustomRunnable implements LoginQueries{
         sendResponse(true, null, null);
 
         Runnable studentRunnable = new StudentRunnable(m_sendString, m_readString, m_sendObject,
-                m_readObject, m_db, student);
+                 m_db, student);
 
         studentRunnable.run();
         stop();

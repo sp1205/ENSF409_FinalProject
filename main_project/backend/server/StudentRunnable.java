@@ -36,8 +36,8 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
 	private DatabaseManager m_db;
 	private Student m_user;
     StudentRunnable(PrintWriter p, BufferedReader r, ObjectOutputStream objOut,
-                    ObjectInputStream objIn, DatabaseManager db, Student user) {
-        super(p, r, objOut, objIn);
+                     DatabaseManager db, Student user) {
+        super(p, r, objOut);
         m_db = db;
         m_user = user;
     }

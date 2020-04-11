@@ -14,7 +14,6 @@ public class Server {
 
     private ObjectOutputStream m_sendObject;
 
-    private ObjectInputStream m_readObject;
 
     private BufferedReader m_readString;
     private PrintWriter m_sendString;
@@ -39,7 +38,6 @@ public class Server {
     private void shutdown() {
         try {
             m_socket.close();
-            m_readObject.close();
             m_sendObject.close();
             m_readString.close();
             m_sendString.close();
@@ -68,11 +66,10 @@ public class Server {
 
                 m_sendObject = new ObjectOutputStream(m_socket.getOutputStream());
                 m_sendObject.flush();
-                m_readObject = new ObjectInputStream(m_socket.getInputStream());
 
 
                 //Runnable task = new StudentRunnable(m_sendString, m_readString, m_sendObject, m_readObject, db);
-                Runnable task = new LoginRunnable(m_sendString, m_readString, m_sendObject, m_readObject, db);
+                Runnable task = new LoginRunnable(m_sendString, m_readString, m_sendObject, db);
                 m_pool.execute(task);
             }
             catch (Exception e) {
