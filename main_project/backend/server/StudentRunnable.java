@@ -64,9 +64,11 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
         }
 
     	Course course = m_db.searchCourse(message.get(1));
-
+    	
     	if (course == null) {
-    	    sendResponse(false, null, "Unable to find course: " + message.get(1));
+    		System.out.println("Course is null - entered course == null!");
+    		sendResponse(false, null, "Unable to find course: " + message.get(1));
+    		return;
         }
 
         sendResponse(true, course, null);
