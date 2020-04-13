@@ -45,20 +45,23 @@ public class DatabaseManager {
         return true;
     }
 
-    public boolean removeCourseFromStudent(int studentId, int courseId) {
+    public boolean removeCourseFromStudent(int studentId, String courseName) {
         Registration found = null;
         for (Registration r : m_dbConnector.getRegistrations()) {
             if (r.getTheStudent().getStudentId() == studentId &&
-                r.getTheOffering().getTheCourse().getCourseID() == courseId) {
+                r.getTheOffering().getTheCourse().getCourseName().equals(courseName) ) {
                 found = r;
                 break;
             }
         }
 
         if (found == null) {
-            return false;
+            System.out.println("Registration not found! Unable to delete student from course");
+        	return false;
         }
-
+        
+        System.out.println("Deleting registration r with ID: "+ found.getRegistrationID());
+        System.out.println(found);
         m_dbConnector.deleteRegistration(found.getRegistrationID());
         return true;
     }

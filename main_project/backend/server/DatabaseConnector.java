@@ -326,6 +326,10 @@ public class DatabaseConnector implements Constants {
 		
 		this.getExitQueriesSQL().add(s);
 		
+		this.committToSQL(s);
+		
+		this.objectsFromSQL();
+		
 	}
 	
 	/**
@@ -342,28 +346,27 @@ public class DatabaseConnector implements Constants {
 		String s = "";
 		s += "DELETE FROM coursedb.tblregistration ";
 		s += "WHERE RegistrationID="+Integer.toString(registrationID);
-		
+//		System.out.println(s);
 		this.getExitQueriesSQL().add(s);
-			
+		
+		this.committToSQL(s);
+		
+		this.objectsFromSQL();
 	}
 	
 	/**
 	 * This method executes the queries in the exit queries buffer one at a time 
 	 */
-	public void committToSQL() {
-		System.out.println("commitToSQL called: " + counter++ + " times!");
-		int x = 0;
-		for(String c : this.getExitQueriesSQL()) {
-			x++;
-			
+	public void committToSQL(String s) {
+		System.out.println("commitToSQL called: " + ++counter + " times!");	
 			try {
 				Statement toExecute = this.getMyConnection().createStatement();
-				toExecute.executeUpdate(c);
-				System.out.println("Committed query "+x+" to database");
+				toExecute.executeUpdate(s);
+				System.out.println("Committed query \n"+s+"\n to database");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				System.out.println("Update "+x+" to database failed!");
+				System.out.println("Update \n"+s+"\n to database failed!");
 			}
 		}
 	}

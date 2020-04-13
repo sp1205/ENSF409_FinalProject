@@ -125,12 +125,13 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
 
         String uid = (message.get(1));
         Course course = m_db.searchCourse(uid);
+        System.out.println("StudentRunnable::removeCourseFromStudent: received course: " + course.toString());
         if (course == null) {
             sendResponse(false, null, "Course: " + uid + " does not exist in database");
             return;
         }
 
-        if (m_db.removeCourseFromStudent(m_user.getStudentId(), course.getCourseID())) {
+        if (m_db.removeCourseFromStudent(m_user.getStudentId(), course.getCourseName())) {
             sendResponse(true, null, null);
         }
         else {
