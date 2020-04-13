@@ -1,4 +1,4 @@
-package Controller;
+package frontend.Controller;
 
 interface StudentQueries {
     String searchCourse = "1";

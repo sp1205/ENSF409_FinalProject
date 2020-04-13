@@ -11,7 +11,7 @@ public class DatabaseManager {
     DatabaseConnector m_dbConnector;
     DatabaseManager() {
         m_dbConnector = new DatabaseConnector();
-        m_dbConnector.objectsFromSQL();
+    //    m_dbConnector.objectsFromSQL();
     }
 
     public Course searchCourse(String courseName) {
@@ -93,6 +93,6 @@ public class DatabaseManager {
     }
 
     public void commit() {
-        m_dbConnector.committToSQL();
+   //     m_dbConnector.committToSQL();
     }
 }

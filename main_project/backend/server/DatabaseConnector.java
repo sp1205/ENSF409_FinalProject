@@ -91,29 +91,6 @@ public class DatabaseConnector implements Constants {
 		}
 		//method executed to pull data from SQL database and store them inside model objects
 		this.objectsFromSQL();
-		//Initiating the exit queries buffer
-		this.setExitQueriesSQL(new ArrayList<String>());
-
-		this.studentsMap = new Hashtable<String, Student>();
-		this.courseMap = new Hashtable<String, Course>();
-		this.studentIDMap = new Hashtable<Integer, Student>();
-		this.registrationMap = new Hashtable<Integer, Registration>();
-		this.courseOfferingMap = new Hashtable<Integer, CourseOffering>();
-		
-		//populating HashTables
-		for (Course c : this.courses) {
-			this.courseMap.put(c.getCourseName(), c);
-		}
-		for (Student c : this.students) {
-			this.studentsMap.put(c.getStudentName(), c);
-			this.studentIDMap.put(c.getStudentId(), c);
-		}
-		for(CourseOffering c : this.courseOfferings) {
-			this.courseOfferingMap.put(c.getCourseOfferingID(), c);
-		}
-		for(Registration c : this.registrations) {
-			this.registrationMap.put(c.getRegistrationID(), c);
-		}
 		
 	}
 	
@@ -149,6 +126,32 @@ public class DatabaseConnector implements Constants {
 				}
 			}
 		}
+		
+		//Initiating the exit queries buffer
+		this.setExitQueriesSQL(new ArrayList<String>());
+
+		this.studentsMap = new Hashtable<String, Student>();
+		this.courseMap = new Hashtable<String, Course>();
+		this.studentIDMap = new Hashtable<Integer, Student>();
+		this.registrationMap = new Hashtable<Integer, Registration>();
+		this.courseOfferingMap = new Hashtable<Integer, CourseOffering>();
+
+
+		//populating HashTables
+		for (Course c : this.courses) {
+			this.courseMap.put(c.getCourseName(), c);
+		}
+		for (Student c : this.students) {
+			this.studentsMap.put(c.getStudentName(), c);
+			this.studentIDMap.put(c.getStudentId(), c);
+		}
+		for(CourseOffering c : this.courseOfferings) {
+			this.courseOfferingMap.put(c.getCourseOfferingID(), c);
+		}
+		for(Registration c : this.registrations) {
+			this.registrationMap.put(c.getRegistrationID(), c);
+		}
+		
 		
 		System.out.println("Organized CourseOffering objects successfully by searching registration objects!");
 		
@@ -315,8 +318,8 @@ public class DatabaseConnector implements Constants {
 		
 		r.completeRegistration(st, ct);
 		
-		this.registrations.add(r);
-		this.registrationMap.put(tempRegID+1, r);
+	//	this.registrations.add(r);
+	//	this.registrationMap.put(tempRegID+1, r);
 		
 		String s = "";
 		s += "INSERT INTO coursedb.tblregistration ";
@@ -340,8 +343,8 @@ public class DatabaseConnector implements Constants {
 	public void deleteRegistration(int registrationID) {
 		
 		Registration r = this.getRegistrationMap().get(registrationID);
-		this.getRegistrations().remove(r);
-		this.getRegistrationMap().remove(registrationID, r);
+//		this.getRegistrations().remove(r);
+//		this.getRegistrationMap().remove(registrationID, r);
 		
 		String s = "";
 		s += "DELETE FROM coursedb.tblregistration ";
@@ -368,7 +371,6 @@ public class DatabaseConnector implements Constants {
 				e.printStackTrace();
 				System.out.println("Update \n"+s+"\n to database failed!");
 			}
-		}
 	}
 	
 	
@@ -471,7 +473,7 @@ public class DatabaseConnector implements Constants {
 
 	/******************************* Testing Code - Not relevant to project *************************/
 	public static void main(String[] args) {
-		DatabaseConnector test = new DatabaseConnector();
+//		DatabaseConnector test = new DatabaseConnector();
 	
 //		System.out.println(test.registerStudent(10, 20));
 	}

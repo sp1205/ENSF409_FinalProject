@@ -1,4 +1,4 @@
-package Controller;
+package frontend.Controller;
 
 import frontend.GUI.StudentGUI;
 import backend.models.Course;
