@@ -30,12 +30,32 @@ interface StudentQueries {
 }
 
 
-
+/**
+ * Handles all database queries from client.
+ */
 public class StudentRunnable extends CustomRunnable implements  StudentQueries{
 
+    /**
+     * Database manager
+     */
 	private DatabaseManager m_db;
+    /**
+     * Logged in student
+     */
 	private Student m_user;
+    /**
+     * Has the database been updated yet?
+     */
 	private boolean m_hasCommited = false;
+
+    /**
+     * Constructs a server with specified IO interfaces
+     * @param p assigned to internal member
+     * @param r assigned to internal member
+     * @param objOut assigned to internal member
+     * @param db assigned to internal member
+     * @param user assigned to internal member
+     */
     StudentRunnable(PrintWriter p, BufferedReader r, ObjectOutputStream objOut,
                      DatabaseManager db, Student user) {
         super(p, r, objOut);
@@ -43,6 +63,9 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
         m_user = user;
     }
 
+    /**
+     * Sends list of options to client
+     */
     @Override
     public void sendMenu() {
         String menu = 
@@ -55,8 +78,12 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
         + "6. Quit";
         sendString(menu);
     }
-    
 
+
+    /**
+     * Parses search course message from client.
+     * @param message from client
+     */
     public void searchCourse(ArrayList<String> message) {
         if (message.size() != 2) {
             System.out.println("StudentRunnable: searchCourse: invalid message of length: " + message.size());
@@ -74,6 +101,9 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
         sendResponse(true, course, null);
     }
 
+    /**
+     * sends client a list of courses
+     */
     private void listCourses() {
     	System.out.println("StudentRunnable: sending Course List");
 
@@ -86,6 +116,10 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
     	sendResponse(true, list, null);
     }
 
+    /**
+     * Parses message from client and returns list of courses to client
+     * @param message from client.
+     */
     private void allCoursesTakenByStudent(ArrayList<String> message) {
         System.out.println("StudentRunnable: sending Course List");
 
@@ -98,6 +132,10 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
         sendResponse(true, list, null);
     }
 
+    /**
+     * Parses message from client add adds course to logged in student
+     * @param message from client
+     */
     private void addCourseToStudent(ArrayList<String> message) {
         if (message.size() != 2) {
             System.out.println("StudentRunnable: addCourseToStudent: invalid message of length: " + message.size());
@@ -119,6 +157,10 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
         }
     }
 
+    /**
+     * Parses message from client and removes specified course from student
+     * @param message from client
+     */
     private void removeCourseFromStudent(ArrayList<String> message) {
         if (message.size() != 2) {
             System.out.println("StudentRunnable: removeCourseToStudent: invalid message of length: " + message.size());
@@ -141,8 +183,16 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
         }
     }
 
+    /**
+     * Handles input from client
+     * @param in input
+     */
     public void handleInput(String in ) { return; }
 
+    /**
+     * Handles input message from client
+     * @param message from client
+     */
     public void handleInput(ArrayList<String> message) {
     	if (message.size() <= 0) {
     		System.out.println("StudentRunanble: handleInput: received empty message as parameter");
@@ -178,6 +228,9 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
         }
     }
 
+    /**
+     * Stops the main execution loop
+     */
     @Override
     protected void stop() {
         if (m_hasCommited == false) {
@@ -187,6 +240,10 @@ public class StudentRunnable extends CustomRunnable implements  StudentQueries{
         super.stop();
     }
 
+    /**
+     * Main execution loop.
+     * Handles reading messages from client.
+     */
     public void run() {
         System.out.println("Student runnable started");
         try {

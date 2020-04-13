@@ -4,22 +4,53 @@ import java.io.*;
 import java.util.concurrent.*;
 import java.net.*;
 
+/**
+ * Listens for connections from client.
+ */
 public class Server {
 
+    /**
+     * Incoming connections go thru here
+     */
     private ServerSocket m_serverSocket;
+    /**
+     * socket to client
+     */
     private Socket m_socket;
+    /**
+     * Handles login threads
+     */
     private ExecutorService m_pool;
 
+    /**
+     * Handles database queries
+     */
     private DatabaseManager m_db;
 
+    /**
+     * Writes to client
+     */
     private ObjectOutputStream m_sendObject;
 
 
+    /**
+     * Reads from client
+     */
     private BufferedReader m_readString;
+    /**
+     * Sends string to cleint
+     */
     private PrintWriter m_sendString;
 
+    /**
+     * True if main loop is running.
+     */
     private boolean m_running;
 
+    /**
+     * Constructs a server listening on a specific port
+     * @param port port to listen on
+     */
     public Server(int port) {
         try {
             m_serverSocket = new ServerSocket(port);
@@ -31,10 +62,16 @@ public class Server {
         }
     }
 
+    /**
+     * Stops main loop
+     */
     public void stop() {
         m_running = false;
     }
 
+    /**
+     * CLoses all IO interfaces.
+     */
     private void shutdown() {
         try {
             m_socket.close();
@@ -50,6 +87,9 @@ public class Server {
 
     }
 
+    /**
+     * Main execution loop. Listens for connections from clients.
+     */
     public void run() {
         int log = 0;
         m_running = true;
@@ -81,6 +121,10 @@ public class Server {
         }
     }
 
+    /**
+     * This is where the backend starts execution
+     * @param args command line args, there should be none .
+     */
     public static void main(String[] args) {
         try {
             System.out.println("Starting server on port 8081");

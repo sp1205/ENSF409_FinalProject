@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 /** Fixing toString function required **/
 
+/**
+ * Represents a course offering
+ */
 public class CourseOffering implements Serializable{
 	
 	/**
@@ -15,7 +18,13 @@ public class CourseOffering implements Serializable{
 	private int courseOfferingNum;
 	private int secCap;
 	private ArrayList <Registration> offeringRegList;
-	
+
+	/**
+	 * Constructs a course offering
+	 * @param courseOfferingID id of offering
+	 * @param courseOfferingNum the section number
+	 * @param theCourse course being offered
+	 */
 	public CourseOffering (int courseOfferingID, int courseOfferingNum, Course theCourse) {
 		this.setCourseOfferingID(courseOfferingID);
 		this.setCourseOfferingNum(courseOfferingNum);
@@ -25,15 +34,34 @@ public class CourseOffering implements Serializable{
 	}
 
 
+	/**
+	 *
+	 * @return true if course is active
+	 */
 	public boolean isActive() {
 		return offeringRegList.size() >= 6;
 	}
+
+	/**
+	 *
+	 * @return course being offered
+	 */
 	public Course getTheCourse() {
 		return theCourse;
 	}
+
+	/**
+	 * Changes offered course
+	 * @param theCourse the course being offered
+	 */
 	public void setTheCourse(Course theCourse) {
 		this.theCourse = theCourse;
 	}
+
+	/**
+	 *
+	 * @return String representation of object
+	 */
 	@Override
 	public String toString () {
 		String st = "";
@@ -42,10 +70,20 @@ public class CourseOffering implements Serializable{
 		//We also want to print the names of all students in the section
 		return st;
 	}
+
+	/**
+	 * Changes registration
+	 * @param registration new registration
+	 */
 	public void addRegistration(Registration registration) {
 		// TODO Auto-generated method stub
 		offeringRegList.add(registration);
 	}
+
+	/**
+	 * Removes registration from offering
+	 * @param reg registration to remove
+	 */
 	public void removeRegistration(Registration reg ) {
 	    // DVIPOND TODO: remove course from student!
 	    offeringRegList.remove(reg);
