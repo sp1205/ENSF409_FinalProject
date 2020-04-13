@@ -32,7 +32,7 @@ public class Student implements Serializable{
 	@Override
 	public String toString () {
 		String st = "Student Name: " + getStudentName() + "\n" +
-				"Student Id: " + getStudentId() + "\n\n";
+				"Student Id: " + getStudentId() + "\n";
 		return st;
 	}
 

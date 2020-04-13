@@ -43,9 +43,9 @@ public class Course implements Serializable{
 	}
 	@Override
 	public String toString () {
-		String st = "\n";
+		String st = "";
 		st += getCourseName() + " " + getCourseID ();
-		st += "\n-------\n";
+//		st += "\n-------\n";
 		return st;
 	}
 
