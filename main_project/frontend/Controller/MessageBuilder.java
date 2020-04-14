@@ -46,7 +46,7 @@ public class MessageBuilder implements StudentQueries {
      *
      * Server Response:
      *      1. successMessage()
-     *      2. ArrayList<Course> of courses taken by student
+     *      2. ArrayList <Course> of courses taken by student
      * else:
      *      1. custom error message (client should display to GUI)
      * @param courseName name of course
