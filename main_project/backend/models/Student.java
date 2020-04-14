@@ -1,10 +1,12 @@
 package backend.models;
 import java.io.Serializable;
 
-/** Fixing toString function required **/
 
 /**
  * Represents a student
+ * 
+ * @author Devon Vipond, Robyn Scholz, Janam Marthak
+ * 
  */
 public class Student implements Serializable{
 	private static final long serialVersionUID = 999909L;

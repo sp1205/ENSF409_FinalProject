@@ -2,10 +2,12 @@ package backend.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/** Fixing toString function required **/
 
 /**
  * Represents a course offering
+ * 
+ * @author Devon Vipond, Robyn Scholz, Janam Marthak
+ * 
  */
 public class CourseOffering implements Serializable{
 	

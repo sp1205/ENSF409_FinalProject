@@ -16,6 +16,8 @@ interface LoginQueries {
 
 /**
  * Handles logins.
+ * 
+ * @author Devon Vipond, Robyn Scholz, Janam Marthak
  */
 public class LoginRunnable extends CustomRunnable implements LoginQueries{
     private DatabaseManager m_db;

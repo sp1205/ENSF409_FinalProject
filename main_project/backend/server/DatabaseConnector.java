@@ -6,7 +6,7 @@ import java.sql.*;
 
 /**
  * Constants being used in the following class DatabaseConnector
- * @author Janam Marthak
+ * @author Devon Vipond, Robyn Scholz, Janam Marthak
  *
  */
 interface Constants {
@@ -25,6 +25,11 @@ interface Constants {
 	static final String PASSWORD = "root";	
 }
 
+/**
+ * Class definition for the database connector which imports data from SQL server and stores it in local objects
+ * @author Devon Vipond, Robyn Scholz, Janam Marthak
+ *
+ */
 public class DatabaseConnector implements Constants {
 	/**
 	 * Connection member variable for the database

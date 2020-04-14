@@ -8,6 +8,8 @@ import java.util.ArrayList;
 /**
  * Base class for all runnables in project backend. Handles socket I/O and Threading.
  *
+ * @author Devon Vipond, Robyn Scholz, Janam Marthak
+ *
  */
 public abstract class CustomRunnable implements Runnable {
     /**

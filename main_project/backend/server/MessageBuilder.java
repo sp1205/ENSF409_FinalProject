@@ -2,6 +2,9 @@ package backend.server;
 
 /**
  * Used by clients to create server messages
+ * 
+ * @author Devon Vipond, Robyn Scholz, Janam Marthak
+ * 
  */
 public class MessageBuilder implements StudentQueries {
 	public MessageBuilder() {

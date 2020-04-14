@@ -32,6 +32,8 @@ interface StudentQueries {
 
 /**
  * Handles all database queries from client.
+ * 
+ * @author Devon Vipond, Robyn Scholz, Janam Marthak
  */
 public class StudentRunnable extends CustomRunnable implements  StudentQueries{
 

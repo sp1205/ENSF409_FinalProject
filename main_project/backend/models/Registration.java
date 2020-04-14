@@ -2,10 +2,11 @@ package backend.models;
 
 import java.io.Serializable;
 
-/** Fixing toString function required **/
-
 /**
  * Representation of a student->course registration
+ * 
+ * @author Devon Vipond, Robyn Scholz, Janam Marthak
+ * 
  */
 public class Registration implements Serializable {
 	/**

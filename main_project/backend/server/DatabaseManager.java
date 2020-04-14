@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 /**
  * Wrapper around DatabaseConnector. Used by the server to execute database queries.
+ * 
+ * @author Devon Vipond, Robyn Scholz, Janam Marthak
+ * 
  */
 public class DatabaseManager {
     /**

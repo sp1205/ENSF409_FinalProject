@@ -6,6 +6,8 @@ import java.net.*;
 
 /**
  * Listens for connections from client.
+ * 
+ * @author Devon Vipond, Robyn Scholz, Janam Marthak
  */
 public class Server {
 
